@@ -220,7 +220,7 @@ const DATA = {
 export default function VibesWilTV() {
   const ROTATE_MS = 5000;
   const FADE_MS = 400;
-  const [fontScale, setFontScale] = useState(1.05);
+  const [fontScale, setFontScale] = useState(0.9);
 
   const drinkGroups = useMemo(() => groupBy(DATA.drinks, "category"), []);
   const drinkCategories = Object.keys(drinkGroups);
@@ -298,7 +298,7 @@ function Header({ fontScale, setFontScale }) {
           VIBES WIL
         </h1>
         <div className="text-white/70 text-base">· Menü Display</div>
-        <div className="ml-auto flex items-center gap-4 text-sm">
+        {/*<div className="ml-auto flex items-center gap-4 text-sm">
           <span className="text-white/70 hidden md:inline">Textgröße</span>
           <input
             type="range"
@@ -319,6 +319,7 @@ function Header({ fontScale, setFontScale }) {
             {fontScale.toFixed(2)}×
           </span>
         </div>
+        */}
       </div>
     </div>
   );

@@ -15,6 +15,10 @@ html, body, #root {
   padding-right: 5px;
 }
 
+#root > div > div.grid.grid-cols-3.h-\[85vh\] > div:nth-child(2) > div.relative.z-10.h-full.flex.flex-col.items-start.justify-start.px-8.py-8 > h2{
+  padding-left: 5px;
+}
+
 /* Fallback für alte Browser (Smart-TVs, Tizen etc.) */
 @supports not (display: grid) {
   .grid {
