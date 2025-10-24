@@ -402,7 +402,7 @@ function MenuRow({ label, price, note }) {
 function Footer() {
   return (
     <div className="text-center py-6 text-white/50 text-sm">
-      © {new Date().getFullYear()} Vibes Wil · Black & Gold Display
+      © {new Date().getFullYear()} Vibes Wil · Created by Daniel Sevinc
     </div>
   );
 }
