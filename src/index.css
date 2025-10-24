@@ -10,3 +10,14 @@ html, body, #root {
   color: white;
   font-family: system-ui, sans-serif;
 }
+
+/* Fallback für alte Browser (Smart-TVs, Tizen etc.) */
+@supports not (display: grid) {
+  .grid {
+    display: flex !important;
+    flex-wrap: nowrap;
+  }
+  .grid > * {
+    flex: 1 0 33.333%;
+  }
+}
