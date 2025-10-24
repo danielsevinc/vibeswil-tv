@@ -269,9 +269,6 @@ export default function VibesWilTV() {
           <div className="space-y-6">
             {Object.entries(shishaGroups).map(([brand, items]) => (
               <div key={brand}>
-                <h3 className="text-2xl mb-2 font-serif" style={{ color: GOLD, fontWeight: 700 }}>
-                  {brand}
-                </h3>
                 <ul className="divide-y" style={{ borderColor: BORDER_GOLD }}>
                   {items.map((t, i) => (
                     <MenuRow key={`${brand}-${i}`} label={t.flavor} price={t.price} note={t.note} />
@@ -297,7 +294,7 @@ function Header({ fontScale, setFontScale }) {
         <h1 className="text-4xl font-serif" style={{ color: GOLD, fontWeight: 800 }}>
           VIBES WIL
         </h1>
-        <div className="text-white/70 text-base">· Menü Display</div>
+        <div className="text-white/70 text-base">· Getränke- & Shishakarte</div>
         {/*<div className="ml-auto flex items-center gap-4 text-sm">
           <span className="text-white/70 hidden md:inline">Textgröße</span>
           <input
@@ -386,14 +383,23 @@ function MenuRow({ label, price, note }) {
     <li className="py-2">
       <div className="flex items-baseline">
         <span className="text-lg md:text-xl font-medium truncate">{label}</span>
-        <span
-          className="flex-1 mx-3 border-b border-dotted"
-          style={{ borderColor: BORDER_GOLD }}
-        />
+
+        {/* Linie nur, wenn es eine Beschreibung (note) gibt */}
+        {note ? (
+          <span
+            className="flex-1 mx-3 border-b border-dotted"
+            style={{ borderColor: BORDER_GOLD }}
+          />
+        ) : (
+          <span className="flex-1 mx-3" />
+        )}
+
         <span className="text-lg md:text-xl font-semibold" style={{ color: GOLD }}>
           {currency(price)}
         </span>
       </div>
+
+      {/* Beschreibung (note) */}
       {note && <div className="text-sm text-white/70 mt-1">{note}</div>}
     </li>
   );
