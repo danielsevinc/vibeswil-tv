@@ -339,11 +339,14 @@ function FullBgColumn({ title, bg, children, fading }) {
         }`}
       />
 
-      {/* Dunkles Overlay + Gradient */}
+      {/* Dunkles Overlay + Gradient (verbessert für Lesbarkeit) */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 [background:radial-gradient(ellipse_at_center,rgba(0,0,0,0.4)_0%,rgba(0,0,0,0.8)_70%,rgba(0,0,0,0.95)_100%)]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/85 to-black/95" />
+        {/* Stärkerer Grund-Overlay */}
+        <div className="absolute inset-0 bg-black/70" />
+        {/* Tieferer Verlauf für Textkontrast */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/90 to-black/95" />
       </div>
+
 
       {/* Inhalt oben */}
       <div className="relative z-10 h-full flex flex-col items-start justify-start px-8 py-8">
