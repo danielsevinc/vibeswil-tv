@@ -4,13 +4,11 @@ on:
   push:
     branches: [ main ]
 
-# Erforderliche Rechte für Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Gleichzeitige Deploys vermeiden
 concurrency:
   group: "pages"
   cancel-in-progress: true
@@ -20,29 +18,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      # Node installieren
       - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-
-      # Dependencies & Build
+        with: { node-version: 22 }
       - run: npm ci
       - run: npm run build
-
-      # SPA-Fix: 404.html = index.html (damit Reloads auf Unterpfaden funktionieren)
       - run: cp dist/index.html dist/404.html
-
-      # Pages vorbereiten & Artefakt hochladen
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
+        with: { path: dist }
 
   deploy:
-    runs-on: ubuntu-latest
     needs: build
-    # >>> Das geforderte Environment <<<
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
