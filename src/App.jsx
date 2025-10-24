@@ -42,7 +42,9 @@ const groupBy = (arr, key) =>
     (acc[k] = acc[k] || []).push(x);
     return acc;
   }, {});
-const currency = (n) => (typeof n === "number" ? `${n.toFixed(n % 1 ? 2 : 0)} CHF` : "");
+const currency = (n) => (typeof n === "number" ? `${n.toFixed(2)} CHF` : "");
+
+//  const currency = (n) => (typeof n === "number" ? `${n.toFixed(n % 1 ? 2 : 0)} CHF` : "");
 
 // Demo-Daten
 // Vollständige Menü-Daten von VIBES WIL
