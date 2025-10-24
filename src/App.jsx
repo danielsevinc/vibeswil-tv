@@ -45,23 +45,175 @@ const groupBy = (arr, key) =>
 const currency = (n) => (typeof n === "number" ? `${n.toFixed(n % 1 ? 2 : 0)} CHF` : "");
 
 // Demo-Daten
+// Vollständige Menü-Daten von VIBES WIL
 const DATA = {
   drinks: [
-    { category: "Cocktails", name: "Mojito", price: 15.5, note: "Rum · Limette · Minze" },
-    { category: "Cocktails", name: "Espresso Martini", price: 15.5, note: "Vodka · Espresso" },
-    { category: "Cocktails", name: "Long Island Iced Tea", price: 18 },
-    { category: "Bier", name: "Feldschlösschen 0.5 l", price: 6 },
-    { category: "Bier", name: "Heineken 0.33 l", price: 5.5 },
-    { category: "Softdrinks", name: "Cola 0.33 l", price: 4.5 },
-    { category: "Softdrinks", name: "Red Bull", price: 6 },
-    { category: "Heissgetränke", name: "Café Crème", price: 4 },
+    // --- Wein ---
+    { category: "Rotwein", name: "Pinot Noir", price: 7.5, note: "1 dl · Flasche 70 cl / 57.00 CHF" },
+    { category: "Rotwein", name: "Primitivo", price: 8.0, note: "1 dl · Flasche 70 cl / 62.00 CHF" },
+    { category: "Weisswein", name: "Pinot Grigio", price: 6.5, note: "1 dl · Flasche 70 cl / 44.00 CHF" },
+    { category: "Weisswein", name: "Chardonnay", price: 7.0, note: "1 dl · Flasche 70 cl / 53.00 CHF" },
+
+    // --- Cocktails mit Alkohol ---
+    { category: "Cocktails", name: "Good Vibes", price: 15.5, note: "Vodka · Himbeerenpüree · Cranberrysaft · Limette · Rohrzucker" },
+    { category: "Cocktails", name: "Caipirinha", price: 15.5, note: "Cachaça · Lime Juice · Limette · Rohrzucker" },
+    { category: "Cocktails", name: "Cuba Libre", price: 15.5, note: "Rum · Coca Cola / Zero · Limette · Rohrzucker" },
+    { category: "Cocktails", name: "Long Island Iced Tea", price: 19.5, note: "Vodka · Gin · Rum · Tequila · Triple Sec · Coca Cola · Lime Juice" },
+    { category: "Cocktails", name: "Mojito", price: 15.5, note: "Rum · Soda · Limette · Minze · Rohrzucker" },
+    { category: "Cocktails", name: "Pina Colada", price: 15.5, note: "Rum · Kokosnuss-Sirup · Ananassaft · Rahm" },
+    { category: "Cocktails", name: "Sex on the Beach", price: 15.5, note: "Vodka · White Peach · Orangensaft · Cranberrysaft" },
+    { category: "Cocktails", name: "Amaretto Sour", price: 15.5, note: "Amaretto · Orangensaft · Lime Juice · Rohrzucker" },
+
+    // --- Cocktails ohne Alkohol ---
+    { category: "Mocktails", name: "Berry Vibes", price: 12.5, note: "Himbeerenpüree · Cranberrysaft · Limette · Rohrzucker" },
+    { category: "Mocktails", name: "Coconut Vibes", price: 12.5, note: "Ananassaft · Orangensaft · Rahm · Kokosnuss-Sirup · Grenadine" },
+    { category: "Mocktails", name: "Hawaii Surfer", price: 12.5, note: "Ananassaft · Orangensaft · Passionssaft · Cranberrysaft" },
+    { category: "Mocktails", name: "Virgin Mojito", price: 12.5, note: "Ginger Ale · Limette · Minze · Rohrzucker" },
+
+    // --- Shots ---
+    { category: "Shots", name: "Appenzeller", price: 6.5, note: "34%" },
+    { category: "Shots", name: "Berliner Luft", price: 5.5, note: "18%" },
+    { category: "Shots", name: "Hierbas Ibiza", price: 6.0, note: "26%" },
+    { category: "Shots", name: "Jose Cuervo Classico", price: 6.5, note: "38%" },
+    { category: "Shots", name: "Jose Cuervo Especial", price: 7.0, note: "38%" },
+    { category: "Shots", name: "Jägermeister", price: 6.5, note: "35%" },
+    { category: "Shots", name: "Liquor 43", price: 6.0, note: "31%" },
+    { category: "Shots", name: "Saurer Apfel", price: 5.0, note: "16%" },
+    { category: "Shots", name: "Süsser Apfel", price: 5.0, note: "18%" },
+    { category: "Shots", name: "Shaker", price: 35.0, note: "Serviert in Karaffe" },
+
+    // --- Aperitifs ---
+    { category: "Aperitifs", name: "Martini Blanco", price: 9.5, note: "4 cl · 15%" },
+    { category: "Aperitifs", name: "Aperol", price: 9.5, note: "4 cl · 11%" },
+    { category: "Aperitifs", name: "Campari", price: 9.5, note: "4 cl · 23%" },
+    { category: "Aperitifs", name: "Appenzeller", price: 9.5, note: "4 cl · 29%" },
+    { category: "Aperitifs", name: "Jägermeister", price: 9.5, note: "4 cl · 35%" },
+    { category: "Aperitifs", name: "Zusätze", note: "Red Bull +3 CHF · Cola/Tonic/Bitter Lemon +2.50 CHF · Fruchtsäfte +2 CHF" },
+
+    // --- Spirituosen ---
+    { category: "Spirituosen · Vodka", name: "Absolut Vodka", price: 12.0, note: "4 cl · Flasche 70 cl / 140 CHF · 40%" },
+    { category: "Spirituosen · Vodka", name: "Belvedere", price: 14.0, note: "4 cl · Flasche 70 cl / 220 CHF · 40%" },
+    { category: "Spirituosen · Vodka", name: "Grey Goose", price: 14.0, note: "4 cl · Flasche 70 cl / 220 CHF · 40%" },
+    { category: "Spirituosen · Vodka", name: "Trojka Red", price: 11.0, note: "4 cl · Flasche 70 cl / 130 CHF · 24%" },
+    { category: "Spirituosen · Vodka", name: "Trojka Green", price: 11.0, note: "4 cl · Flasche 70 cl / 130 CHF · 17%" },
+    { category: "Spirituosen · Vodka", name: "Trojka Black", price: 11.0, note: "4 cl · Flasche 70 cl / 130 CHF · 17%" },
+    { category: "Spirituosen · Vodka", name: "Trojka Weiss", note: "Flasche 70 cl / 130 CHF · 40%" },
+
+    { category: "Spirituosen · Gin", name: "Gordons Gin", price: 12.0, note: "4 cl · Flasche 70 cl / 130 CHF · 38%" },
+    { category: "Spirituosen · Gin", name: "Bombay Sapphire", price: 13.0, note: "4 cl · Flasche 70 cl / 140 CHF · 40%" },
+    { category: "Spirituosen · Gin", name: "Hendrick’s", price: 14.0, note: "4 cl · Flasche 70 cl / 160 CHF · 41%" },
+
+    { category: "Spirituosen · Whiskey", name: "Jack Daniels Old No. 7", price: 13.0, note: "4 cl · Flasche 70 cl / 140 CHF · 40%" },
+    { category: "Spirituosen · Whiskey", name: "Chivas Regal 12 Years", price: 16.0, note: "4 cl · Flasche 70 cl / 160 CHF · 40%" },
+    { category: "Spirituosen · Whiskey", name: "Chivas Regal 18 Years", price: 18.0, note: "4 cl · Flasche 70 cl / 190 CHF · 40%" },
+    { category: "Spirituosen · Whiskey", name: "Ballantine’s", note: "Flasche 70 cl / 130 CHF · 40%" },
+    { category: "Spirituosen · Whiskey", name: "Gentleman Jack", note: "Flasche 70 cl / 140 CHF · 40%" },
+
+    { category: "Spirituosen · Rum", name: "Havana Club Añejo 3 Años", price: 12.0, note: "4 cl · Flasche 70 cl / 130 CHF · 40%" },
+    { category: "Spirituosen · Rum", name: "Havana Club Reserva", price: 13.0, note: "4 cl · Flasche 70 cl / 140 CHF · 40%" },
+    { category: "Spirituosen · Rum", name: "Havana Club 7 Años", price: 14.0, note: "4 cl · Flasche 70 cl / 150 CHF · 40%" },
+    { category: "Spirituosen · Rum", name: "Bacardi Superior", price: 13.0, note: "4 cl · Flasche 70 cl / 140 CHF · 38%" },
+    { category: "Spirituosen · Rum", name: "Bacardi Black", price: 13.0, note: "4 cl · Flasche 70 cl / 140 CHF · 38%" },
+    { category: "Spirituosen · Rum", name: "Zusätze", note: "Red Bull +3 CHF · Cola/Tonic/Bitter Lemon +2.50 CHF · Fruchtsäfte +2 CHF" },
+
+    // --- Liköre ---
+    { category: "Liköre", name: "Baileys Irish Cream", price: 11.0, note: "4 cl · 17%" },
+    { category: "Liköre", name: "Hierbas Ibicencas", price: 11.0, note: "4 cl · 16%" },
+    { category: "Liköre", name: "Amaretto Disaronno", price: 11.0, note: "4 cl · 28%" },
+    { category: "Liköre", name: "Kahlúa", price: 11.0, note: "4 cl · 20%" },
+    { category: "Liköre", name: "Malibu", price: 11.0, note: "4 cl · 21%" },
+    { category: "Liköre", name: "Passoã", price: 11.0, note: "4 cl · 17%" },
+    { category: "Liköre", name: "Zusätze", note: "Red Bull +3 CHF · Cola/Tonic/Bitter Lemon +2.50 CHF · Fruchtsäfte +2 CHF" },
+
+    // --- Spritz & Champagner ---
+    { category: "Spritz & Weincocktails", name: "Gespritzter Weisswein", price: 8.5, note: "Süss / Sauer · 20 cl" },
+    { category: "Spritz & Weincocktails", name: "Hugo", price: 12.5, note: "Prosecco · Holunder · Limette · Minze · Soda · 20 cl" },
+    { category: "Spritz & Weincocktails", name: "Aperol Spritz", price: 12.5, note: "Prosecco · Aperol · Soda · 20 cl" },
+    { category: "Spritz & Weincocktails", name: "Campari Spritz", price: 12.5, note: "20 cl" },
+    { category: "Spritz & Weincocktails", name: "Lillet Blanc", price: 12.5, note: "20 cl" },
+    { category: "Spritz & Weincocktails", name: "Lillet Rosé", price: 12.5, note: "20 cl" },
+    { category: "Spritz & Weincocktails", name: "Apricot Spritz", price: 12.5, note: "20 cl" },
+    { category: "Schaumwein & Champagner", name: "Prosecco Spumante", price: 9.0, note: "10 cl · Flasche 75 cl / 80.00 CHF" },
+    { category: "Schaumwein & Champagner", name: "Champagne Moët", note: "Flasche 75 cl / 125.00 CHF" },
+    { category: "Schaumwein & Champagner", name: "Chandon Brut Imperial", note: "Flasche 75 cl / 125.00 CHF" },
+    { category: "Schaumwein & Champagner", name: "Moët Ice", note: "Flasche 75 cl / 125.00 CHF" },
+    { category: "Schaumwein & Champagner", name: "Chandon Ice", note: "Flasche 75 cl / 125.00 CHF" },
+
+    // --- Bier ---
+    { category: "Bier", name: "Haldengut Lager", price: 5.5, note: "30 cl · 5%" },
+    { category: "Bier", name: "Haldengut Lager Süss/Sauer", price: 5.5, note: "30 cl · 5%" },
+    { category: "Bier", name: "Haldengut Lager Gross", price: 8.0, note: "50 cl · 5%" },
+    { category: "Bier", name: "Corona", price: 8.0, note: "35 cl · 4.6%" },
+    { category: "Bier", name: "Heineken Premium", price: 7.0, note: "33 cl · 5%" },
+    { category: "Bier", name: "Heineken Alkoholfrei", price: 6.5, note: "33 cl · alkoholfrei" },
+    { category: "Bier", name: "Smirnoff Ice", price: 8.0, note: "275 ml · 4%" },
+    { category: "Bier", name: "Bomonti", price: 8.0, note: "500 ml" },
+
+    // --- Kalte Getränke ---
+    { category: "Kalte Getränke", name: "Mineral ohne Kohlensäure", price: 5.5, note: "33 cl" },
+    { category: "Kalte Getränke", name: "Mineral mit Kohlensäure", price: 5.5, note: "33 cl" },
+    { category: "Kalte Getränke", name: "Coca Cola", price: 5.5, note: "33 cl" },
+    { category: "Kalte Getränke", name: "Coca Cola Zero", price: 5.5, note: "33 cl" },
+    { category: "Kalte Getränke", name: "Fanta", price: 6.0, note: "33 cl" },
+    { category: "Kalte Getränke", name: "Sprite", price: 5.0, note: "33 cl" },
+    { category: "Kalte Getränke", name: "Rivella Rot", price: 5.0, note: "33 cl" },
+    { category: "Kalte Getränke", name: "Rivella Blau", price: 5.0, note: "33 cl" },
+    { category: "Kalte Getränke", name: "Ice Tea Lemon", price: 6.0, note: "33 cl" },
+    { category: "Kalte Getränke", name: "Ice Tea Peach", price: 6.0, note: "33 cl" },
+    { category: "Kalte Getränke", name: "Schorle", price: 5.0, note: "33 cl" },
+    { category: "Kalte Getränke", name: "Elephant Bay", price: 7.5, note: "Lemon · Peach · Blueberry · Himbeere · Wassermelone · Granatapfel · u.v.m. · 33 cl" },
+    { category: "Kalte Getränke", name: "Red Bull", price: 7.5, note: "Classic · Sugar Free · White · Blue · Green · Red · Apricot · Yellow · Summer · 25 cl" },
+    { category: "Kalte Getränke", name: "Moloko", price: 7.5, note: "Limette-Minze · Cranberry · Blueberry · 25 cl" },
+    { category: "Kalte Getränke", name: "Schweppes", price: 5.5, note: "Bitter Lemon · Tonic · Ginger Ale · Rose · 20 cl" },
+    { category: "Kalte Getränke", name: "Fruchtsäfte", price: 6.0, note: "Ananas · Orange · Cranberry · Maracuja · 30 cl" },
+
+    // --- Warme Getränke ---
+    { category: "Warme Getränke", name: "Kaffee", price: 5.5 },
+    { category: "Warme Getränke", name: "Milchkaffee", price: 6.0 },
+    { category: "Warme Getränke", name: "Espresso", price: 5.0 },
+    { category: "Warme Getränke", name: "Doppelter Espresso", price: 6.5 },
+    { category: "Warme Getränke", name: "Cappuccino", price: 6.5 },
+    { category: "Warme Getränke", name: "Latte Macchiato", price: 6.5 },
+    { category: "Warme Getränke", name: "Warme Schokolade", price: 6.0 },
+    { category: "Warme Getränke", name: "Tee", price: 5.5, note: "Schwarz · Grün · Pfefferminz · Kamille · Fruchtmix" },
   ],
+
+  // --- SHISHA ---
   shisha: [
-    { brand: "187 Strassenbande", flavor: "Beach Vibez", price: 25, note: "Himbeere · Limette" },
-    { brand: "Musthave", flavor: "Pinkman", price: 25, note: "Beerenmix" },
-    { brand: "Adalya", flavor: "Love 66", price: 25, note: "Honigmelone · Maracuja · Minze" },
+    { brand: "Hookah", flavor: "Eine Mischung deiner Wahl", price: 29.0 },
+    { brand: "Hookah", flavor: "Hausmischung mit/ohne Minze", price: 29.0 },
+    { brand: "Hookah", flavor: "African Queen", price: 29.0 },
+    { brand: "Hookah", flavor: "Ananas", price: 29.0 },
+    { brand: "Hookah", flavor: "Baja Blue", price: 29.0 },
+    { brand: "Hookah", flavor: "Balkan Night", price: 29.0 },
+    { brand: "Hookah", flavor: "Blacknana", price: 29.0 },
+    { brand: "Hookah", flavor: "Blaulicht", price: 29.0 },
+    { brand: "Hookah", flavor: "Blue Ice", price: 29.0 },
+    { brand: "Hookah", flavor: "Blueberry", price: 29.0 },
+    { brand: "Hookah", flavor: "Doppelapfel", price: 29.0 },
+    { brand: "Hookah", flavor: "Grüne Minze", price: 29.0 },
+    { brand: "Hookah", flavor: "Grüne Moloko", price: 29.0 },
+    { brand: "Hookah", flavor: "Gurke", price: 29.0 },
+    { brand: "Hookah", flavor: "Ice Caktuz", price: 29.0 },
+    { brand: "Hookah", flavor: "Ice Lime", price: 29.0 },
+    { brand: "Hookah", flavor: "Icebonbon", price: 29.0 },
+    { brand: "Hookah", flavor: "Ladykiller", price: 29.0 },
+    { brand: "Hookah", flavor: "Lemonchill", price: 29.0 },
+    { brand: "Hookah", flavor: "Love 66", price: 29.0 },
+    { brand: "Hookah", flavor: "Mango Tango", price: 29.0 },
+    { brand: "Hookah", flavor: "Orange", price: 29.0 },
+    { brand: "Hookah", flavor: "Pearchill", price: 29.0 },
+    { brand: "Hookah", flavor: "Persischer Apfel", price: 29.0 },
+    { brand: "Hookah", flavor: "Pfirsich", price: 29.0 },
+    { brand: "Hookah", flavor: "Schwarze Traube", price: 29.0 },
+    { brand: "Hookah", flavor: "Swissbonbon", price: 29.0 },
+    { brand: "Hookah", flavor: "Tropical", price: 29.0 },
+    { brand: "Hookah", flavor: "Watermelon", price: 29.0 },
+    { brand: "Hookah", flavor: "Watermelonchill", price: 29.0 },
+    { brand: "Hookahkopf", flavor: "Einzelner Kopf", price: 20.0 },
   ],
 };
+
 
 export default function VibesWilTV() {
   const ROTATE_MS = 5000;
