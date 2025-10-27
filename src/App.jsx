@@ -13,22 +13,24 @@ const FALLBACK_IMG =
 
 // Bild-Zuordnung (normalisierte Keys)
 const IMAGE_MAP = {
-  "cocktails":
-    "https://plus.unsplash.com/premium_photo-1677000666461-fbefa43c2c7f?fm=jpg&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y29ja3RhaWx8ZW58MHx8MHx8fDA%3D&ixlib=rb-4.1.0&q=60&w=3000",
-  "bier":
-    "https://images.unsplash.com/photo-1646824648652-7cc03f332047?fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&ixlib=rb-4.1.0&q=60&w=3000",
-  "softdrinks":
-    "https://images.unsplash.com/photo-1473425990767-8324e48b48b5?fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE1fHx8ZW58MHx8fHx8&ixlib=rb-4.1.0&q=60&w=3000",
-  "heissgetränke":
-    "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=1500&q=80",
-  "shisha":
-    "https://images.unsplash.com/photo-1630175772812-3368aad7982d?fm=jpg&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c2hpc2hhfGVufDB8fDB8fHww&ixlib=rb-4.1.0&q=60&w=3000",
-  "187 strassenbande":
-    "https://images.unsplash.com/photo-1580136579312-94651dfd596d?auto=format&fit=crop&w=1500&q=80",
-  "musthave":
-    "https://images.unsplash.com/photo-1623398047089-74b8a93e06e3?auto=format&fit=crop&w=1500&q=80",
-  "adalya":
-    "https://images.unsplash.com/photo-1615485290342-77b8f26cfb3e?auto=format&fit=crop&w=1500&q=80",
+  "rotwein": "https://images.unsplash.com/photo-1510626176961-4b57d4fbad03?auto=format&fit=crop&w=2000&q=80",
+  "weisswein": "https://images.unsplash.com/photo-1601924638867-3ec4a9b69f93?auto=format&fit=crop&w=2000&q=80",
+  "cocktails": "https://images.unsplash.com/photo-1571079987580-68117d1a5d4d?auto=format&fit=crop&w=2000&q=80",
+  "mocktails": "https://images.unsplash.com/photo-1613470207927-5ae1cc8c46cd?auto=format&fit=crop&w=2000&q=80",
+  "shots": "https://images.unsplash.com/photo-1580711739920-e3b09ef3f6e8?auto=format&fit=crop&w=2000&q=80",
+  "aperitifs": "https://images.unsplash.com/photo-1603048297172-287b0e6e9a49?auto=format&fit=crop&w=2000&q=80",
+  "spirituosen · vodka": "https://images.unsplash.com/photo-1600272006942-43b0c7aab356?auto=format&fit=crop&w=2000&q=80",
+  "spirituosen · gin": "https://images.unsplash.com/photo-1622396481461-32a506d494a0?auto=format&fit=crop&w=2000&q=80",
+  "spirituosen · whiskey": "https://images.unsplash.com/photo-1617196037919-9d5e6f6e0f0a?auto=format&fit=crop&w=2000&q=80",
+  "spirituosen · rum": "https://images.unsplash.com/photo-1598300189653-2c79f9b3b88f?auto=format&fit=crop&w=2000&q=80",
+  "liköre": "https://images.unsplash.com/photo-1609692814632-bb2a6b223cee?auto=format&fit=crop&w=2000&q=80",
+  "spritz & weincocktails": "https://images.unsplash.com/photo-1595974439264-6a756a5b4f0d?auto=format&fit=crop&w=2000&q=80",
+  "schaumwein & champagner": "https://images.unsplash.com/photo-1601924817711-6e5b4c474fae?auto=format&fit=crop&w=2000&q=80",
+  "bier": "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=2000&q=80",
+  "kalte getränke": "https://images.unsplash.com/photo-1613470207927-5ae1cc8c46cd?auto=format&fit=crop&w=2000&q=80",
+  "warme getränke": "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=2000&q=80",
+  "shisha": "https://images.unsplash.com/photo-1630175772812-3368aad7982d?auto=format&fit=crop&w=2000&q=80",
+  "hookah": "https://images.unsplash.com/photo-1630175772812-3368aad7982d?auto=format&fit=crop&w=2000&q=80"
 };
 
 // Hilfsfunktionen
@@ -339,14 +341,11 @@ function FullBgColumn({ title, bg, children, fading }) {
         }`}
       />
 
-      {/* Dunkles Overlay + Gradient (verbessert für Lesbarkeit) */}
+      {/* Dunkleres Overlay + sanfter Verlauf */}
       <div className="absolute inset-0">
-        {/* Stärkerer Grund-Overlay */}
-        <div className="absolute inset-0 bg-black/70" />
-        {/* Tieferer Verlauf für Textkontrast */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/90 to-black/95" />
+        <div className="absolute inset-0 bg-black/80" /> {/* gleichmäßige Abdunklung */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/85 to-black/95" />
       </div>
-
 
       {/* Inhalt oben */}
       <div className="relative z-10 h-full flex flex-col items-start justify-start px-8 py-8">
