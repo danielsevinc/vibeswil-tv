@@ -327,11 +327,55 @@ function Header({ fontScale, setFontScale }) {
 /* --- Hauptspalte mit dunklem Overlay und Top-Alignment --- */
 function FullBgColumn({ title, bg, children, fading }) {
   const [src, setSrc] = useState(bg || FALLBACK_IMG);
+  const contentRef = React.useRef(null);
+
   useEffect(() => setSrc(bg || FALLBACK_IMG), [bg]);
+
+  // 🔄 Automatischer Scroll-Effekt
+  useEffect(() => {
+    const el = contentRef.current;
+    if (!el) return;
+
+    el.scrollTo({ top: 0, behavior: "auto" }); // zurück nach oben bei Start
+
+    const scrollHeight = el.scrollHeight;
+    const clientHeight = el.clientHeight;
+
+    if (scrollHeight <= clientHeight) return; // kein Scroll nötig
+
+    const SCROLL_DURATION = 8000; // wie lange der Scrollvorgang dauert (ms)
+    const HOLD_TIME = 2000; // wie lange oben/unten pausiert wird (ms)
+
+    let direction = 1;
+    let startTime;
+
+    let animFrame;
+
+    function scrollStep(timestamp) {
+      if (!startTime) startTime = timestamp;
+      const progress = (timestamp - startTime) / SCROLL_DURATION;
+      const distance = (scrollHeight - clientHeight) * progress * direction;
+
+      el.scrollTop = direction === 1 ? distance : (scrollHeight - clientHeight) - distance;
+
+      if (progress < 1) {
+        animFrame = requestAnimationFrame(scrollStep);
+      } else {
+        direction *= -1;
+        startTime = null;
+        setTimeout(() => {
+          animFrame = requestAnimationFrame(scrollStep);
+        }, HOLD_TIME);
+      }
+    }
+
+    animFrame = requestAnimationFrame(scrollStep);
+    return () => cancelAnimationFrame(animFrame);
+  }, [title]); // bei jedem neuen Titel neu starten
 
   return (
     <div className="relative overflow-hidden">
-      {/* Bild */}
+      {/* Hintergrundbild */}
       <img
         src={src}
         alt={normalize(title)}
@@ -341,21 +385,28 @@ function FullBgColumn({ title, bg, children, fading }) {
         }`}
       />
 
-      {/* Dunkleres Overlay + sanfter Verlauf */}
+      {/* Dunkles Overlay */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-black/80" /> {/* gleichmäßige Abdunklung */}
+        <div className="absolute inset-0 bg-black/85" /> 
         <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/85 to-black/95" />
       </div>
 
-      {/* Inhalt oben */}
-      <div className="relative z-10 h-full flex flex-col items-start justify-start px-8 py-8">
+      {/* Inhalt (scrollbarer Bereich) */}
+      <div
+        ref={contentRef}
+        className="relative z-10 h-full flex flex-col items-start justify-start px-8 py-8 overflow-hidden"
+      >
         <h2
           className="text-3xl mb-4 font-serif drop-shadow-[0_3px_8px_rgba(0,0,0,1)]"
           style={{ color: GOLD, fontWeight: 800 }}
         >
           {title}
         </h2>
-        <div className="w-full">{children}</div>
+
+        {/* scrollbarer Bereich */}
+        <div className="w-full overflow-hidden">
+          <div className="pr-4">{children}</div>
+        </div>
       </div>
 
       {/* Spaltentrenner */}
