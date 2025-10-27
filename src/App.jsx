@@ -220,7 +220,7 @@ const DATA = {
 
 
 export default function VibesWilTV() {
-  const ROTATE_MS = 5000;
+  const ROTATE_MS = 10000;
   const FADE_MS = 400;
   const [fontScale, setFontScale] = useState(0.9);
 
@@ -327,51 +327,58 @@ function Header({ fontScale, setFontScale }) {
 /* --- Hauptspalte mit dunklem Overlay und Top-Alignment --- */
 function FullBgColumn({ title, bg, children, fading }) {
   const [src, setSrc] = useState(bg || FALLBACK_IMG);
-  const contentRef = React.useRef(null);
+  const scrollRef = React.useRef(null);
 
   useEffect(() => setSrc(bg || FALLBACK_IMG), [bg]);
 
-  // 🔄 Automatischer Scroll-Effekt
   useEffect(() => {
-    const el = contentRef.current;
+    const el = scrollRef.current;
     if (!el) return;
 
-    el.scrollTo({ top: 0, behavior: "auto" }); // zurück nach oben bei Start
+    // kurz warten bis Layout fertig ist
+    let raf1 = requestAnimationFrame(() => {
+      let raf2 = requestAnimationFrame(() => {
+        el.scrollTo({ top: 0, behavior: "auto" });
 
-    const scrollHeight = el.scrollHeight;
-    const clientHeight = el.clientHeight;
+        const maxScroll = el.scrollHeight - el.clientHeight;
+        if (maxScroll <= 0) return; // kein Scroll nötig
 
-    if (scrollHeight <= clientHeight) return; // kein Scroll nötig
+        const SCROLL_DURATION = 5000; // <— 🔥 schneller! (zuvor 12000)
+        const HOLD_TIME = 1500;       // kleine Pause oben/unten
 
-    const SCROLL_DURATION = 8000; // wie lange der Scrollvorgang dauert (ms)
-    const HOLD_TIME = 2000; // wie lange oben/unten pausiert wird (ms)
+        let direction = 1;
+        let start = performance.now();
+        let animId;
 
-    let direction = 1;
-    let startTime;
+        const tick = (t) => {
+          const elapsed = t - start;
+          const p = Math.min(elapsed / SCROLL_DURATION, 1);
 
-    let animFrame;
+          const pos =
+            direction === 1
+              ? p * maxScroll
+              : maxScroll - p * maxScroll;
 
-    function scrollStep(timestamp) {
-      if (!startTime) startTime = timestamp;
-      const progress = (timestamp - startTime) / SCROLL_DURATION;
-      const distance = (scrollHeight - clientHeight) * progress * direction;
+          el.scrollTop = pos;
 
-      el.scrollTop = direction === 1 ? distance : (scrollHeight - clientHeight) - distance;
+          if (p < 1) {
+            animId = requestAnimationFrame(tick);
+          } else {
+            direction *= -1;
+            start = performance.now();
+            setTimeout(() => {
+              animId = requestAnimationFrame(tick);
+            }, HOLD_TIME);
+          }
+        };
 
-      if (progress < 1) {
-        animFrame = requestAnimationFrame(scrollStep);
-      } else {
-        direction *= -1;
-        startTime = null;
-        setTimeout(() => {
-          animFrame = requestAnimationFrame(scrollStep);
-        }, HOLD_TIME);
-      }
-    }
+        animId = requestAnimationFrame(tick);
+        return () => cancelAnimationFrame(animId);
+      });
+    });
 
-    animFrame = requestAnimationFrame(scrollStep);
-    return () => cancelAnimationFrame(animFrame);
-  }, [title]); // bei jedem neuen Titel neu starten
+    return () => cancelAnimationFrame(raf1);
+  }, [title]);
 
   return (
     <div className="relative overflow-hidden">
@@ -385,17 +392,14 @@ function FullBgColumn({ title, bg, children, fading }) {
         }`}
       />
 
-      {/* Dunkles Overlay */}
+      {/* Abdunkelung */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-black/85" /> 
+        <div className="absolute inset-0 bg-black/85" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/85 to-black/95" />
       </div>
 
-      {/* Inhalt (scrollbarer Bereich) */}
-      <div
-        ref={contentRef}
-        className="relative z-10 h-full flex flex-col items-start justify-start px-8 py-8 overflow-hidden"
-      >
+      {/* Inhalt */}
+      <div className="relative z-10 h-full flex flex-col items-start justify-start px-8 py-8">
         <h2
           className="text-3xl mb-4 font-serif drop-shadow-[0_3px_8px_rgba(0,0,0,1)]"
           style={{ color: GOLD, fontWeight: 800 }}
@@ -403,14 +407,25 @@ function FullBgColumn({ title, bg, children, fading }) {
           {title}
         </h2>
 
-        {/* scrollbarer Bereich */}
-        <div className="w-full overflow-hidden">
-          <div className="pr-4">{children}</div>
+        {/* Scrollbarer Bereich */}
+        <div
+          ref={scrollRef}
+          className="w-full flex-1 overflow-y-auto pr-4"
+          style={{
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+          }}
+        >
+          <style>{`div::-webkit-scrollbar { display: none; }`}</style>
+          {children}
         </div>
       </div>
 
       {/* Spaltentrenner */}
-      <div className="absolute top-0 right-0 h-full" style={{ width: 1, background: BORDER_GOLD }} />
+      <div
+        className="absolute top-0 right-0 h-full"
+        style={{ width: 1, background: BORDER_GOLD }}
+      />
     </div>
   );
 }
