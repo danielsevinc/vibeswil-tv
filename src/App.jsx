@@ -13,7 +13,7 @@ const FALLBACK_IMG =
 
 // Bild-Zuordnung (normalisierte Keys)
 const IMAGE_MAP = {
-  "rotwein": "https://images.unsplash.com/photo-1514809838646-2c2eac6c3910?auto=format&fit=crop&w=2000&q=80",
+  "rotwein": "https://images.unsplash.com/photo-1544776527-68e63addedf7?auto=format&fit=crop&w=2000&q=80",
   "weisswein": "https://images.unsplash.com/photo-1696081248263-af609cc61ffa?auto=format&fit=crop&w=2000&q=80",
   "cocktails": "https://images.unsplash.com/photo-1748674758581-2afc6adebc19?auto=format&fit=crop&w=2000&q=80",
   "mocktails": "https://images.unsplash.com/photo-1610515660473-c11d4f3f7d37?auto=format&fit=crop&w=2000&q=80",
@@ -331,74 +331,64 @@ function FullBgColumn({ title, bg, children, fading }) {
 
   useEffect(() => setSrc(bg || FALLBACK_IMG), [bg]);
 
+  // automatisches Scrollen
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
 
-    // kurz warten bis Layout fertig ist
-    let raf1 = requestAnimationFrame(() => {
-      let raf2 = requestAnimationFrame(() => {
-        el.scrollTo({ top: 0, behavior: "auto" });
+    let raf;
+    const maxScroll = el.scrollHeight - el.clientHeight;
+    if (maxScroll <= 0) return;
 
-        const maxScroll = el.scrollHeight - el.clientHeight;
-        if (maxScroll <= 0) return; // kein Scroll nötig
+    const SCROLL_DURATION = 4000; // schnellere Scrollzeit
+    const HOLD_TIME = 1000;
 
-        const SCROLL_DURATION = 5000; // <— 🔥 schneller! (zuvor 12000)
-        const HOLD_TIME = 1500;       // kleine Pause oben/unten
+    let direction = 1;
+    let start = performance.now();
 
-        let direction = 1;
-        let start = performance.now();
-        let animId;
+    const tick = (t) => {
+      const elapsed = t - start;
+      const progress = Math.min(elapsed / SCROLL_DURATION, 1);
+      const pos = direction === 1 ? progress * maxScroll : maxScroll - progress * maxScroll;
+      el.scrollTop = pos;
 
-        const tick = (t) => {
-          const elapsed = t - start;
-          const p = Math.min(elapsed / SCROLL_DURATION, 1);
+      if (progress < 1) {
+        raf = requestAnimationFrame(tick);
+      } else {
+        direction *= -1;
+        start = performance.now();
+        setTimeout(() => {
+          raf = requestAnimationFrame(tick);
+        }, HOLD_TIME);
+      }
+    };
 
-          const pos =
-            direction === 1
-              ? p * maxScroll
-              : maxScroll - p * maxScroll;
-
-          el.scrollTop = pos;
-
-          if (p < 1) {
-            animId = requestAnimationFrame(tick);
-          } else {
-            direction *= -1;
-            start = performance.now();
-            setTimeout(() => {
-              animId = requestAnimationFrame(tick);
-            }, HOLD_TIME);
-          }
-        };
-
-        animId = requestAnimationFrame(tick);
-        return () => cancelAnimationFrame(animId);
-      });
-    });
-
-    return () => cancelAnimationFrame(raf1);
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
   }, [title]);
 
   return (
     <div className="relative overflow-hidden">
-      {/* Hintergrundbild */}
-      <img
-        src={src}
-        alt={normalize(title)}
-        onError={() => setSrc(FALLBACK_IMG)}
-        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
-          fading ? "opacity-0" : "opacity-100"
-        }`}
-      />
-
-      {/* Abdunkelung */}
+      {/* --- Hintergrundbild --- */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-black/85" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/85 to-black/95" />
+        <img
+          src={src}
+          alt={normalize(title)}
+          onError={() => setSrc(FALLBACK_IMG)}
+          className={`w-full h-full object-center object-cover transition-opacity duration-700 ${
+            fading ? "opacity-0" : "opacity-100"
+          }`}
+          style={{ filter: "brightness(35%) contrast(110%)" }} // <— dunkler, aber sichtbar!
+        />
       </div>
 
-      {/* Inhalt */}
+      {/* --- Stärkere Abdunkelung + Verlauf --- */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-black/75" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/85 to-black/95" />
+      </div>
+
+      {/* --- Inhalt --- */}
       <div className="relative z-10 h-full flex flex-col items-start justify-start px-8 py-8">
         <h2
           className="text-3xl mb-4 font-serif drop-shadow-[0_3px_8px_rgba(0,0,0,1)]"
@@ -421,7 +411,7 @@ function FullBgColumn({ title, bg, children, fading }) {
         </div>
       </div>
 
-      {/* Spaltentrenner */}
+      {/* --- Spaltentrenner --- */}
       <div
         className="absolute top-0 right-0 h-full"
         style={{ width: 1, background: BORDER_GOLD }}
