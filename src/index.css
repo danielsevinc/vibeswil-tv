@@ -47,6 +47,11 @@ html, body, #root {
   padding-right: 5px;
 }
 
+#root > div > div.grid.grid-cols-3.h-\[85vh\] > div:nth-child(3) > div.relative.z-10.h-full.flex.flex-col.items-start.justify-start.px-8.py-8 > div > div > div:nth-child(1) > div{
+  margin-left: 15px;
+  display: block;
+}
+
 /* Fallback für alte Browser (Smart-TVs, Tizen etc.) */
 @supports not (display: grid) {
   .grid {
