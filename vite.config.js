@@ -1,6 +1,8 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import legacy from '@vitejs/plugin-legacy'
+
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import legacy from '@vitejs/plugin-legacy';
+import { viteSingleFile } from 'vite-plugin-singlefile';
 
 export default defineConfig({
   plugins: [
@@ -17,12 +19,12 @@ export default defineConfig({
       ],
       additionalLegacyPolyfills: ['regenerator-runtime/runtime'],
       modernPolyfills: true
-    })
+    }),
+    viteSingleFile()
   ],
-  // build: { target: 'es2015' },
-    build: {
-      outDir: 'public',
-      emptyOutDir: true,
-    },
+  build: {
+    outDir: 'public',
+    emptyOutDir: true,
+  },
   base: '/vibeswil-tv/'
 })
