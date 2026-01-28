@@ -1,16 +1,51 @@
-# React + Vite
+# VIBES WIL · TV Display
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Eine PHP Single Page Application für die Anzeige der Getränke- und Shishakarte von VIBES WIL auf einem TV-Display.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **3-Spalten-Layout**: Links und Mitte zeigen rotierende Getränkekategorien, rechts die Shisha-Karte
+- **Automatische Rotation**: Kategorien wechseln alle 10 Sekunden mit sanften Überblendungen
+- **Auto-Scroll**: Lange Listen scrollen automatisch für bessere Sichtbarkeit
+- **Responsives Design**: Optimiert für TV-Displays
+- **Gold & Schwarz Theme**: Elegantes Design mit goldenen Akzenten
 
-## React Compiler
+## Technologie
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **PHP**: Single Page Application ohne externe Abhängigkeiten
+- **Inline CSS & JavaScript**: Alles in einer einzigen Datei
+- **GitHub Pages**: Automatisches Deployment bei Push auf main Branch
 
-## Expanding the ESLint configuration
+## Deployment
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Die Applikation wird automatisch auf GitHub Pages deployed, wenn Änderungen auf den `main` Branch gepusht werden.
+
+### Manuelles Deployment
+
+1. Die `index.php` Datei auf einen PHP-fähigen Webserver hochladen
+2. Keine weiteren Konfigurationen oder Installationen notwendig
+
+## Lokale Entwicklung
+
+### Mit PHP Built-in Server
+
+```bash
+php -S localhost:8000
+```
+
+Dann im Browser öffnen: `http://localhost:8000/index.php`
+
+## Anpassungen
+
+Alle Menüdaten, Bilder-URLs und Konfigurationen befinden sich direkt in der `index.php` Datei und können dort bearbeitet werden.
+
+### Wichtige Konfigurationsvariablen:
+
+- `$DATA['drinks']`: Alle Getränke und deren Kategorien
+- `$DATA['shisha']`: Shisha-Sorten und Preise
+- `$IMAGE_MAP`: Zuordnung von Kategorien zu Hintergrundbildern
+- `ROTATE_MS`: Rotationszeit in Millisekunden (Standard: 10000)
+
+## Lizenz
+
+© 2025 Vibes Wil · Created by Daniel Sevinc
