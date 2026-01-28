@@ -1,8 +1,15 @@
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+}
+
+/* Alle FullBgColumn-Spalten gleich hoch (übersteuert falls nötig) */
+.grid-cols-3 > .relative {
+  height: 100% !important;
+  min-height: 0 !important;
 }
 
 .logo {

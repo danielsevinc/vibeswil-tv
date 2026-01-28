@@ -395,7 +395,7 @@ function FullBgColumn({ title, bg, children, fading }) {
   }, [title]);
 
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative overflow-hidden h-full">
       {/* --- Hintergrundbild --- */}
       <div className="absolute inset-0">
         <img
