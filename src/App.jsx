@@ -271,37 +271,16 @@ export default function VibesWilTV() {
           <div className="space-y-6">
             {Object.entries(shishaGroups).map(([brand, items]) => (
               <div key={brand} className="mb-6">
-                {/* Preis-Hinweis nur für normale Hookahs */}
-                {brand.toLowerCase() === "hookah" && (
-                  <div
-                    className="mb-3 text-base font-medium tracking-wide"
-                    style={{ color: GOLD }}
-                  >
-                    Preis für alle Shishas:{" "}
-                    <span className="font-semibold">29.00 CHF</span>
-                  </div>
-                )}
-
+                {/* Kein Preis-Hinweis mehr */}
                 <ul className="divide-y" style={{ borderColor: BORDER_GOLD }}>
-                  {items.map((t, i) => {
-                    const isEinzelkopf =
-                      t.flavor.toLowerCase().includes("einzelner kopf") ||
-                      brand.toLowerCase() === "hookahkopf";
-
-                    // Preislogik:
-                    // - Einzelner Kopf => 20 CHF
-                    // - Alle anderen Hookahs => kein Preis (da oben angezeigt)
-                    const itemPrice = isEinzelkopf ? 20.0 : undefined;
-
-                    return (
-                      <MenuRow
-                        key={`${brand}-${i}`}
-                        label={t.flavor}
-                        price={itemPrice}
-                        note={t.note}
-                      />
-                    );
-                  })}
+                  {items.map((t, i) => (
+                    <MenuRow
+                      key={`${brand}-${i}`}
+                      label={t.flavor}
+                      price={undefined}
+                      note={t.note}
+                    />
+                  ))}
                 </ul>
               </div>
             ))}
