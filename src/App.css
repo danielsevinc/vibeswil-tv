@@ -1,3 +1,32 @@
+/* Erzwinge volle Höhe für alle Grid-Spalten und deren Inhalt */
+.min-h-screen {
+  min-height: 100vh;
+}
+.grid.grid-cols-3 {
+  height: 85vh;
+  min-height: 400px;
+  align-items: stretch;
+}
+.grid.grid-cols-3 > .relative {
+  height: 100% !important;
+  min-height: 0 !important;
+  display: flex;
+  flex-direction: column;
+}
+.grid.grid-cols-3 > .relative > .absolute.inset-0 {
+  height: 100% !important;
+}
+.grid.grid-cols-3 img {
+  height: 100% !important;
+  min-height: 0 !important;
+  object-fit: cover !important;
+}
+.grid.grid-cols-3 > .relative > .relative.z-10.h-full {
+  height: 100% !important;
+  min-height: 0 !important;
+  display: flex;
+  flex-direction: column;
+}
 /* Erzwinge gleiche Höhe für alle Spalten und Bilder */
 .grid.grid-cols-3 {
   height: 85vh;
