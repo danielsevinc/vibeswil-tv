@@ -1,4 +1,4 @@
 <?php
-// Beispiel für einen einfachen API-Endpunkt
+// Example API endpoint for PHP deployment
 header('Content-Type: application/json');
-echo json_encode(['status' => 'ok', 'message' => 'API funktioniert']);
+echo json_encode(['status' => 'ok']);

@@ -41,6 +41,7 @@ Kopiere die Datei `public/index.html` in einen Ordner, den GitHub Pages als Quel
 - Für History-API-Routing: Lege eine Kopie von `index.html` als `404.html` an, damit Deep-Links funktionieren.
 - Keine PHP- oder Backend-Funktionalität möglich.
 
+
 ---
 
 **Fertig!** Deine App läuft jetzt als Single-Page-HTML auf GitHub Pages.
