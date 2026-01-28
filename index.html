@@ -1,12 +1,590 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VIBES WIL · Menü Display</title>
-  </head>
-  <body class="bg-neutral-900">
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+            min-height: 100vh;
+        }
+        
+        .header {
+            border-bottom: 1px solid rgba(212,175,55,0.25);
+            padding: 1rem 1.5rem;
+        }
+        
+        .header-content {
+            max-width: 80rem;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .header-title {
+            font-size: 2.25rem;
+            font-family: serif;
+            color: #d4af37;
+            font-weight: 800;
+        }
+        
+        .header-subtitle {
+            color: rgba(255,255,255,0.7);
+            font-size: 1rem;
+        }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            height: 85vh;
+            font-size: 0.9rem;
+        }
+        
+        .column {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .column-bg {
+            position: absolute;
+            inset: 0;
+        }
+        
+        .column-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            filter: brightness(35%) contrast(110%);
+            transition: opacity 0.7s;
+        }
+        
+        .column-overlay {
+            position: absolute;
+            inset: 0;
+        }
+        
+        .overlay-dark {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0,0,0,0.75);
+        }
+        
+        .overlay-gradient {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0.85), rgba(0,0,0,0.95));
+        }
+        
+        .column-content {
+            position: relative;
+            z-index: 10;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding: 2rem;
+        }
+        
+        .column-title {
+            font-size: 1.875rem;
+            margin-bottom: 1rem;
+            font-family: serif;
+            color: #d4af37;
+            font-weight: 800;
+            text-shadow: 0 3px 8px rgba(0,0,0,1);
+        }
+        
+        .scroll-area {
+            width: 100%;
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 1rem;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        
+        .scroll-area::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .menu-list {
+            border-color: rgba(212,175,55,0.25);
+        }
+        
+        .menu-item {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(212,175,55,0.25);
+        }
+        
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+        
+        .menu-item-row {
+            display: flex;
+            align-items: baseline;
+        }
+        
+        .menu-item-name {
+            font-size: 1.25rem;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .menu-item-dots {
+            flex: 1;
+            margin: 0 0.75rem;
+            border-bottom: 1px dotted rgba(212,175,55,0.25);
+        }
+        
+        .menu-item-price {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #d4af37;
+            white-space: nowrap;
+        }
+        
+        .menu-item-note {
+            font-size: 0.875rem;
+            color: rgba(255,255,255,0.7);
+            margin-top: 0.25rem;
+        }
+        
+        .shisha-price-note {
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.025em;
+            color: #d4af37;
+        }
+        
+        .shisha-price-note span {
+            font-weight: 600;
+        }
+        
+        .column-divider {
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: 1px;
+            background: rgba(212,175,55,0.25);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.875rem;
+        }
+        
+        .fade-out {
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1 class="header-title">VIBES WIL</h1>
+            <div class="header-subtitle">· Getränke- & Shishakarte</div>
+        </div>
+    </div>
+    
+    <div class="grid-container">
+        <!-- Left Column -->
+        <div class="column" id="column-left">
+            <div class="column-bg">
+                <img id="img-left" src="https://images.unsplash.com/photo-1544776527-68e63addedf7?auto=format&amp;fit=crop&amp;w=2000&amp;q=80" alt="">
+            </div>
+            <div class="column-overlay">
+                <div class="overlay-dark"></div>
+                <div class="overlay-gradient"></div>
+            </div>
+            <div class="column-content">
+                <h2 class="column-title" id="title-left">Rotwein</h2>
+                <div class="scroll-area" id="scroll-left">
+                    <div class="menu-list" id="menu-left"></div>
+                </div>
+            </div>
+            <div class="column-divider"></div>
+        </div>
+        
+        <!-- Middle Column -->
+        <div class="column" id="column-middle">
+            <div class="column-bg">
+                <img id="img-middle" src="https://images.unsplash.com/photo-1696081248263-af609cc61ffa?auto=format&amp;fit=crop&amp;w=2000&amp;q=80" alt="">
+            </div>
+            <div class="column-overlay">
+                <div class="overlay-dark"></div>
+                <div class="overlay-gradient"></div>
+            </div>
+            <div class="column-content">
+                <h2 class="column-title" id="title-middle">Weisswein</h2>
+                <div class="scroll-area" id="scroll-middle">
+                    <div class="menu-list" id="menu-middle"></div>
+                </div>
+            </div>
+            <div class="column-divider"></div>
+        </div>
+        
+        <!-- Right Column (Shisha - Static) -->
+        <div class="column">
+            <div class="column-bg">
+                <img src="https://images.unsplash.com/photo-1630175772812-3368aad7982d?auto=format&amp;fit=crop&amp;w=2000&amp;q=80" alt="Shisha">
+            </div>
+            <div class="column-overlay">
+                <div class="overlay-dark"></div>
+                <div class="overlay-gradient"></div>
+            </div>
+            <div class="column-content">
+                <h2 class="column-title">Shisha · Tabak</h2>
+                <div class="scroll-area">
+                                            <div style="margin-bottom: 1.5rem;">
+                                                            <div class="shisha-price-note">
+                                    Preis für alle Shishas: <span>29.00 CHF</span>
+                                </div>
+                                                        
+                            <div class="menu-list">
+                                                                                                        <div class="menu-item">
+                                        <div class="menu-item-row">
+                                            <span class="menu-item-name">Eine Mischung deiner Wahl</span>
+                                                                                    </div>
+                                                                            </div>
+                                                                                                        <div class="menu-item">
+                                        <div class="menu-item-row">
+                                            <span class="menu-item-name">Hausmischung mit/ohne Minze</span>
+                                                                                    </div>
+                                                                            </div>
+                                                                                                        <div class="menu-item">
+                                        <div class="menu-item-row">
+                                            <span class="menu-item-name">African Queen</span>
+                                                                                    </div>
+                                                                            </div>
+                                                                                                        <div class="menu-item">
+                                        <div class="menu-item-row">
+                                            <span class="menu-item-name">Ananas</span>
+                                                                                    </div>
+                                                                            </div>
+                                                                                                        <div class="menu-item">
+                                        <div class="menu-item-row">
+                                            <span class="menu-item-name">Baja Blue</span>
+                                                                                    </div>
+                                                                            </div>
+                                                                                                        <div class="menu-item">
+                                        <div class="menu-item-row">
+                                            <span class="menu-item-name">Balkan Night</span>
+                                                                                    </div>
+                                                                            </div>
+                                                                                                        <div class="menu-item">
+                                        <div class="menu-item-row">
+                                            <span class="menu-item-name">Blacknana</span>
+                                                                                    </div>
+                                                                            </div>
+                                                                                                        <div class="menu-item">
+                                        <div class="menu-item-row">
+                                            <span class="menu-item-name">Blaulicht</span>
+                                                                                    </div>
+                                                                            </div>
+                                                                                                        <div class="menu-item">
+                                        <div class="menu-item-row">
+                                            <span class="menu-item-name">Blue Ice</span>
+                                                                                    </div>
+                                                                            </div>
+                                                                                                        <div class="menu-item">
+                                        <div class="menu-item-row">
+                                            <span class="menu-item-name">Blueberry</span>
+                                                                                    </div>
+                                                                            </div>
+                                                                                                        <div class="menu-item">
+                                        <div class="menu-item-row">
+                                            <span class="menu-item-name">Doppelapfel</span>
+                                                                                    </div>
+                                                                            </div>
+                                                                                                        <div class="menu-item">
+                                        <div class="menu-item-row">
+                                            <span class="menu-item-name">Grüne Minze</span>
+                                                                                    </div>
+                                                                            </div>
+                                                                                                        <div class="menu-item">
+                                        <div class="menu-item-row">
+                                            <span class="menu-item-name">Grüne Moloko</span>
+                                                                                    </div>
+                                                                            </div>
+                                                                                                        <div class="menu-item">
+                                        <div class="menu-item-row">
+                                            <span class="menu-item-name">Gurke</span>
+                                                                                    </div>
+                                                                            </div>
+                                                                                                        <div class="menu-item">
+                                        <div class="menu-item-row">
+                                            <span class="menu-item-name">Ice Caktuz</span>
+                                                                                    </div>
+                                                                            </div>
+                                                                                                        <div class="menu-item">
+                                        <div class="menu-item-row">
+                                            <span class="menu-item-name">Ice Lime</span>
+                                                                                    </div>
+                                                                            </div>
+                                                                                                        <div class="menu-item">
+                                        <div class="menu-item-row">
+                                            <span class="menu-item-name">Icebonbon</span>
+                                                                                    </div>
+                                                                            </div>
+                                                                                                        <div class="menu-item">
+                                        <div class="menu-item-row">
+                                            <span class="menu-item-name">Ladykiller</span>
+                                                                                    </div>
+                                                                            </div>
+                                                                                                        <div class="menu-item">
+                                        <div class="menu-item-row">
+                                            <span class="menu-item-name">Lemonchill</span>
+                                                                                    </div>
+                                                                            </div>
+                                                                                                        <div class="menu-item">
+                                        <div class="menu-item-row">
+                                            <span class="menu-item-name">Love 66</span>
+                                                                                    </div>
+                                                                            </div>
+                                                                                                        <div class="menu-item">
+                                        <div class="menu-item-row">
+                                            <span class="menu-item-name">Mango Tango</span>
+                                                                                    </div>
+                                                                            </div>
+                                                                                                        <div class="menu-item">
+                                        <div class="menu-item-row">
+                                            <span class="menu-item-name">Orange</span>
+                                                                                    </div>
+                                                                            </div>
+                                                                                                        <div class="menu-item">
+                                        <div class="menu-item-row">
+                                            <span class="menu-item-name">Pearchill</span>
+                                                                                    </div>
+                                                                            </div>
+                                                                                                        <div class="menu-item">
+                                        <div class="menu-item-row">
+                                            <span class="menu-item-name">Persischer Apfel</span>
+                                                                                    </div>
+                                                                            </div>
+                                                                                                        <div class="menu-item">
+                                        <div class="menu-item-row">
+                                            <span class="menu-item-name">Pfirsich</span>
+                                                                                    </div>
+                                                                            </div>
+                                                                                                        <div class="menu-item">
+                                        <div class="menu-item-row">
+                                            <span class="menu-item-name">Schwarze Traube</span>
+                                                                                    </div>
+                                                                            </div>
+                                                                                                        <div class="menu-item">
+                                        <div class="menu-item-row">
+                                            <span class="menu-item-name">Swissbonbon</span>
+                                                                                    </div>
+                                                                            </div>
+                                                                                                        <div class="menu-item">
+                                        <div class="menu-item-row">
+                                            <span class="menu-item-name">Tropical</span>
+                                                                                    </div>
+                                                                            </div>
+                                                                                                        <div class="menu-item">
+                                        <div class="menu-item-row">
+                                            <span class="menu-item-name">Watermelon</span>
+                                                                                    </div>
+                                                                            </div>
+                                                                                                        <div class="menu-item">
+                                        <div class="menu-item-row">
+                                            <span class="menu-item-name">Watermelonchill</span>
+                                                                                    </div>
+                                                                            </div>
+                                                            </div>
+                        </div>
+                                            <div style="margin-bottom: 1.5rem;">
+                                                        
+                            <div class="menu-list">
+                                                                                                        <div class="menu-item">
+                                        <div class="menu-item-row">
+                                            <span class="menu-item-name">Neuer Kopf</span>
+                                                                                            <span class="menu-item-dots"></span>
+                                                <span class="menu-item-price">20.00 CHF</span>
+                                                                                    </div>
+                                                                            </div>
+                                                            </div>
+                        </div>
+                                    </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        &copy; 2026 Vibes Wil · Created by Daniel Sevinc
+    </div>
+    
+    <script>
+        // Data and configuration
+        const ROTATE_MS = 10000;
+        const FADE_MS = 400;
+        const SCROLL_DURATION = 4000;
+        const HOLD_TIME = 1000;
+        
+        const drinkGroups = {"Rotwein":[{"category":"Rotwein","name":"Pinot Noir","price":7.5,"note":"1 dl \u00b7 Flasche 70 cl \/ 57.00 CHF"},{"category":"Rotwein","name":"Primitivo","price":8,"note":"1 dl \u00b7 Flasche 70 cl \/ 62.00 CHF"}],"Weisswein":[{"category":"Weisswein","name":"Pinot Grigio","price":6.5,"note":"1 dl \u00b7 Flasche 70 cl \/ 44.00 CHF"},{"category":"Weisswein","name":"Chardonnay","price":7,"note":"1 dl \u00b7 Flasche 70 cl \/ 53.00 CHF"}],"Cocktails":[{"category":"Cocktails","name":"Good Vibes","price":15.5,"note":"Vodka \u00b7 Himbeerenp\u00fcree \u00b7 Cranberrysaft \u00b7 Limette \u00b7 Rohrzucker"},{"category":"Cocktails","name":"Caipirinha","price":15.5,"note":"Cacha\u00e7a \u00b7 Lime Juice \u00b7 Limette \u00b7 Rohrzucker"},{"category":"Cocktails","name":"Cuba Libre","price":15.5,"note":"Rum \u00b7 Coca Cola \/ Zero \u00b7 Limette \u00b7 Rohrzucker"},{"category":"Cocktails","name":"Long Island Iced Tea","price":19.5,"note":"Vodka \u00b7 Gin \u00b7 Rum \u00b7 Tequila \u00b7 Triple Sec \u00b7 Coca Cola \u00b7 Lime Juice"},{"category":"Cocktails","name":"Mojito","price":15.5,"note":"Rum \u00b7 Soda \u00b7 Limette \u00b7 Minze \u00b7 Rohrzucker"},{"category":"Cocktails","name":"Pina Colada","price":15.5,"note":"Rum \u00b7 Kokosnuss-Sirup \u00b7 Ananassaft \u00b7 Rahm"},{"category":"Cocktails","name":"Sex on the Beach","price":15.5,"note":"Vodka \u00b7 White Peach \u00b7 Orangensaft \u00b7 Cranberrysaft"},{"category":"Cocktails","name":"Amaretto Sour","price":15.5,"note":"Amaretto \u00b7 Orangensaft \u00b7 Lime Juice \u00b7 Rohrzucker"}],"Mocktails":[{"category":"Mocktails","name":"Berry Vibes","price":12.5,"note":"Himbeerenp\u00fcree \u00b7 Cranberrysaft \u00b7 Limette \u00b7 Rohrzucker"},{"category":"Mocktails","name":"Coconut Vibes","price":12.5,"note":"Ananassaft \u00b7 Orangensaft \u00b7 Rahm \u00b7 Kokosnuss-Sirup \u00b7 Grenadine"},{"category":"Mocktails","name":"Hawaii Surfer","price":12.5,"note":"Ananassaft \u00b7 Orangensaft \u00b7 Passionssaft \u00b7 Cranberrysaft"},{"category":"Mocktails","name":"Virgin Mojito","price":12.5,"note":"Ginger Ale \u00b7 Limette \u00b7 Minze \u00b7 Rohrzucker"}],"Shots":[{"category":"Shots","name":"Appenzeller","price":6.5,"note":"34%"},{"category":"Shots","name":"Berliner Luft","price":5.5,"note":"18%"},{"category":"Shots","name":"Hierbas Ibiza","price":6,"note":"26%"},{"category":"Shots","name":"Jose Cuervo Classico","price":6.5,"note":"38%"},{"category":"Shots","name":"Jose Cuervo Especial","price":7,"note":"38%"},{"category":"Shots","name":"J\u00e4germeister","price":6.5,"note":"35%"},{"category":"Shots","name":"Liquor 43","price":6,"note":"31%"},{"category":"Shots","name":"Saurer Apfel","price":5,"note":"16%"},{"category":"Shots","name":"S\u00fcsser Apfel","price":5,"note":"18%"},{"category":"Shots","name":"Shaker","price":35,"note":"Serviert in Karaffe"}],"Aperitifs":[{"category":"Aperitifs","name":"Martini Blanco","price":9.5,"note":"4 cl \u00b7 15%"},{"category":"Aperitifs","name":"Aperol","price":9.5,"note":"4 cl \u00b7 11%"},{"category":"Aperitifs","name":"Campari","price":9.5,"note":"4 cl \u00b7 23%"},{"category":"Aperitifs","name":"Appenzeller","price":9.5,"note":"4 cl \u00b7 29%"},{"category":"Aperitifs","name":"J\u00e4germeister","price":9.5,"note":"4 cl \u00b7 35%"},{"category":"Aperitifs","name":"Zus\u00e4tze","price":null,"note":"Red Bull +3 CHF \u00b7 Cola\/Tonic\/Bitter Lemon +2.50 CHF \u00b7 Fruchts\u00e4fte +2 CHF"}],"Spirituosen \u00b7 Vodka":[{"category":"Spirituosen \u00b7 Vodka","name":"Absolut Vodka","price":12,"note":"4 cl \u00b7 Flasche 70 cl \/ 140 CHF \u00b7 40%"},{"category":"Spirituosen \u00b7 Vodka","name":"Belvedere","price":14,"note":"4 cl \u00b7 Flasche 70 cl \/ 220 CHF \u00b7 40%"},{"category":"Spirituosen \u00b7 Vodka","name":"Grey Goose","price":14,"note":"4 cl \u00b7 Flasche 70 cl \/ 220 CHF \u00b7 40%"},{"category":"Spirituosen \u00b7 Vodka","name":"Trojka Red","price":11,"note":"4 cl \u00b7 Flasche 70 cl \/ 130 CHF \u00b7 24%"},{"category":"Spirituosen \u00b7 Vodka","name":"Trojka Green","price":11,"note":"4 cl \u00b7 Flasche 70 cl \/ 130 CHF \u00b7 17%"},{"category":"Spirituosen \u00b7 Vodka","name":"Trojka Black","price":11,"note":"4 cl \u00b7 Flasche 70 cl \/ 130 CHF \u00b7 17%"},{"category":"Spirituosen \u00b7 Vodka","name":"Trojka Weiss","price":null,"note":"Flasche 70 cl \/ 130 CHF \u00b7 40%"}],"Spirituosen \u00b7 Gin":[{"category":"Spirituosen \u00b7 Gin","name":"Gordons Gin","price":12,"note":"4 cl \u00b7 Flasche 70 cl \/ 130 CHF \u00b7 38%"},{"category":"Spirituosen \u00b7 Gin","name":"Bombay Sapphire","price":13,"note":"4 cl \u00b7 Flasche 70 cl \/ 140 CHF \u00b7 40%"},{"category":"Spirituosen \u00b7 Gin","name":"Hendrick's","price":14,"note":"4 cl \u00b7 Flasche 70 cl \/ 160 CHF \u00b7 41%"}],"Spirituosen \u00b7 Whiskey":[{"category":"Spirituosen \u00b7 Whiskey","name":"Jack Daniels Old No. 7","price":13,"note":"4 cl \u00b7 Flasche 70 cl \/ 140 CHF \u00b7 40%"},{"category":"Spirituosen \u00b7 Whiskey","name":"Chivas Regal 12 Years","price":16,"note":"4 cl \u00b7 Flasche 70 cl \/ 160 CHF \u00b7 40%"},{"category":"Spirituosen \u00b7 Whiskey","name":"Chivas Regal 18 Years","price":18,"note":"4 cl \u00b7 Flasche 70 cl \/ 190 CHF \u00b7 40%"},{"category":"Spirituosen \u00b7 Whiskey","name":"Ballantine's","price":null,"note":"Flasche 70 cl \/ 130 CHF \u00b7 40%"},{"category":"Spirituosen \u00b7 Whiskey","name":"Gentleman Jack","price":null,"note":"Flasche 70 cl \/ 140 CHF \u00b7 40%"}],"Spirituosen \u00b7 Rum":[{"category":"Spirituosen \u00b7 Rum","name":"Havana Club A\u00f1ejo 3 A\u00f1os","price":12,"note":"4 cl \u00b7 Flasche 70 cl \/ 130 CHF \u00b7 40%"},{"category":"Spirituosen \u00b7 Rum","name":"Havana Club Reserva","price":13,"note":"4 cl \u00b7 Flasche 70 cl \/ 140 CHF \u00b7 40%"},{"category":"Spirituosen \u00b7 Rum","name":"Havana Club 7 A\u00f1os","price":14,"note":"4 cl \u00b7 Flasche 70 cl \/ 150 CHF \u00b7 40%"},{"category":"Spirituosen \u00b7 Rum","name":"Bacardi Superior","price":13,"note":"4 cl \u00b7 Flasche 70 cl \/ 140 CHF \u00b7 38%"},{"category":"Spirituosen \u00b7 Rum","name":"Bacardi Black","price":13,"note":"4 cl \u00b7 Flasche 70 cl \/ 140 CHF \u00b7 38%"},{"category":"Spirituosen \u00b7 Rum","name":"Zus\u00e4tze","price":null,"note":"Red Bull +3 CHF \u00b7 Cola\/Tonic\/Bitter Lemon +2.50 CHF \u00b7 Fruchts\u00e4fte +2 CHF"}],"Lik\u00f6re":[{"category":"Lik\u00f6re","name":"Baileys Irish Cream","price":11,"note":"4 cl \u00b7 17%"},{"category":"Lik\u00f6re","name":"Hierbas Ibicencas","price":11,"note":"4 cl \u00b7 16%"},{"category":"Lik\u00f6re","name":"Amaretto Disaronno","price":11,"note":"4 cl \u00b7 28%"},{"category":"Lik\u00f6re","name":"Kahl\u00faa","price":11,"note":"4 cl \u00b7 20%"},{"category":"Lik\u00f6re","name":"Malibu","price":11,"note":"4 cl \u00b7 21%"},{"category":"Lik\u00f6re","name":"Passo\u00e3","price":11,"note":"4 cl \u00b7 17%"},{"category":"Lik\u00f6re","name":"Zus\u00e4tze","price":null,"note":"Red Bull +3 CHF \u00b7 Cola\/Tonic\/Bitter Lemon +2.50 CHF \u00b7 Fruchts\u00e4fte +2 CHF"}],"Spritz & Weincocktails":[{"category":"Spritz & Weincocktails","name":"Gespritzter Weisswein","price":8.5,"note":"S\u00fcss \/ Sauer \u00b7 20 cl"},{"category":"Spritz & Weincocktails","name":"Hugo","price":12.5,"note":"Prosecco \u00b7 Holunder \u00b7 Limette \u00b7 Minze \u00b7 Soda \u00b7 20 cl"},{"category":"Spritz & Weincocktails","name":"Aperol Spritz","price":12.5,"note":"Prosecco \u00b7 Aperol \u00b7 Soda \u00b7 20 cl"},{"category":"Spritz & Weincocktails","name":"Campari Spritz","price":12.5,"note":"20 cl"},{"category":"Spritz & Weincocktails","name":"Lillet Blanc","price":12.5,"note":"20 cl"},{"category":"Spritz & Weincocktails","name":"Lillet Ros\u00e9","price":12.5,"note":"20 cl"},{"category":"Spritz & Weincocktails","name":"Apricot Spritz","price":12.5,"note":"20 cl"}],"Schaumwein & Champagner":[{"category":"Schaumwein & Champagner","name":"Prosecco Spumante","price":9,"note":"10 cl \u00b7 Flasche 75 cl \/ 80.00 CHF"},{"category":"Schaumwein & Champagner","name":"Champagne Mo\u00ebt","price":null,"note":"Flasche 75 cl \/ 125.00 CHF"},{"category":"Schaumwein & Champagner","name":"Chandon Brut Imperial","price":null,"note":"Flasche 75 cl \/ 125.00 CHF"},{"category":"Schaumwein & Champagner","name":"Mo\u00ebt Ice","price":null,"note":"Flasche 75 cl \/ 125.00 CHF"},{"category":"Schaumwein & Champagner","name":"Chandon Ice","price":null,"note":"Flasche 75 cl \/ 125.00 CHF"}],"Bier":[{"category":"Bier","name":"Haldengut Lager","price":5.5,"note":"30 cl \u00b7 5%"},{"category":"Bier","name":"Haldengut Lager S\u00fcss\/Sauer","price":5.5,"note":"30 cl \u00b7 5%"},{"category":"Bier","name":"Haldengut Lager Gross","price":8,"note":"50 cl \u00b7 5%"},{"category":"Bier","name":"Corona","price":8,"note":"35 cl \u00b7 4.6%"},{"category":"Bier","name":"Heineken Premium","price":7,"note":"33 cl \u00b7 5%"},{"category":"Bier","name":"Heineken Alkoholfrei","price":6.5,"note":"33 cl \u00b7 alkoholfrei"},{"category":"Bier","name":"Smirnoff Ice","price":8,"note":"275 ml \u00b7 4%"},{"category":"Bier","name":"Bomonti","price":8,"note":"500 ml"}],"Kalte Getr\u00e4nke":[{"category":"Kalte Getr\u00e4nke","name":"Mineral ohne Kohlens\u00e4ure","price":5.5,"note":"33 cl"},{"category":"Kalte Getr\u00e4nke","name":"Mineral mit Kohlens\u00e4ure","price":5.5,"note":"33 cl"},{"category":"Kalte Getr\u00e4nke","name":"Coca Cola","price":5.5,"note":"33 cl"},{"category":"Kalte Getr\u00e4nke","name":"Coca Cola Zero","price":5.5,"note":"33 cl"},{"category":"Kalte Getr\u00e4nke","name":"Fanta","price":6,"note":"33 cl"},{"category":"Kalte Getr\u00e4nke","name":"Sprite","price":5,"note":"33 cl"},{"category":"Kalte Getr\u00e4nke","name":"Rivella Rot","price":5,"note":"33 cl"},{"category":"Kalte Getr\u00e4nke","name":"Rivella Blau","price":5,"note":"33 cl"},{"category":"Kalte Getr\u00e4nke","name":"Ice Tea Lemon","price":6,"note":"33 cl"},{"category":"Kalte Getr\u00e4nke","name":"Ice Tea Peach","price":6,"note":"33 cl"},{"category":"Kalte Getr\u00e4nke","name":"Schorle","price":5,"note":"33 cl"},{"category":"Kalte Getr\u00e4nke","name":"Elephant Bay","price":7.5,"note":"Lemon \u00b7 Peach \u00b7 Blueberry \u00b7 Himbeere \u00b7 Wassermelone \u00b7 Granatapfel \u00b7 u.v.m. \u00b7 33 cl"},{"category":"Kalte Getr\u00e4nke","name":"Red Bull","price":7.5,"note":"Classic \u00b7 Sugar Free \u00b7 White \u00b7 Blue \u00b7 Green \u00b7 Red \u00b7 Apricot \u00b7 Yellow \u00b7 Summer \u00b7 25 cl"},{"category":"Kalte Getr\u00e4nke","name":"Moloko","price":7.5,"note":"Limette-Minze \u00b7 Cranberry \u00b7 Blueberry \u00b7 25 cl"},{"category":"Kalte Getr\u00e4nke","name":"Schweppes","price":5.5,"note":"Bitter Lemon \u00b7 Tonic \u00b7 Ginger Ale \u00b7 Rose \u00b7 20 cl"},{"category":"Kalte Getr\u00e4nke","name":"Fruchts\u00e4fte","price":6,"note":"Ananas \u00b7 Orange \u00b7 Cranberry \u00b7 Maracuja \u00b7 30 cl"}],"Warme Getr\u00e4nke":[{"category":"Warme Getr\u00e4nke","name":"Kaffee","price":5.5,"note":""},{"category":"Warme Getr\u00e4nke","name":"Milchkaffee","price":6,"note":""},{"category":"Warme Getr\u00e4nke","name":"Espresso","price":5,"note":""},{"category":"Warme Getr\u00e4nke","name":"Doppelter Espresso","price":6.5,"note":""},{"category":"Warme Getr\u00e4nke","name":"Cappuccino","price":6.5,"note":""},{"category":"Warme Getr\u00e4nke","name":"Latte Macchiato","price":6.5,"note":""},{"category":"Warme Getr\u00e4nke","name":"Warme Schokolade","price":6,"note":""},{"category":"Warme Getr\u00e4nke","name":"Tee","price":5.5,"note":"Schwarz \u00b7 Gr\u00fcn \u00b7 Pfefferminz \u00b7 Kamille \u00b7 Fruchtmix"}]};
+        const drinkCategories = ["Rotwein","Weisswein","Cocktails","Mocktails","Shots","Aperitifs","Spirituosen \u00b7 Vodka","Spirituosen \u00b7 Gin","Spirituosen \u00b7 Whiskey","Spirituosen \u00b7 Rum","Lik\u00f6re","Spritz & Weincocktails","Schaumwein & Champagner","Bier","Kalte Getr\u00e4nke","Warme Getr\u00e4nke"];
+        const imageMap = {"rotwein":"https:\/\/images.unsplash.com\/photo-1544776527-68e63addedf7?auto=format&fit=crop&w=2000&q=80","weisswein":"https:\/\/images.unsplash.com\/photo-1696081248263-af609cc61ffa?auto=format&fit=crop&w=2000&q=80","cocktails":"https:\/\/images.unsplash.com\/photo-1748674758581-2afc6adebc19?auto=format&fit=crop&w=2000&q=80","mocktails":"https:\/\/images.unsplash.com\/photo-1610515660473-c11d4f3f7d37?auto=format&fit=crop&w=2000&q=80","shots":"https:\/\/images.unsplash.com\/photo-1681555597955-9d478f4dbf69?auto=format&fit=crop&w=2000&q=80","aperitifs":"https:\/\/images.unsplash.com\/photo-1607687332053-ef831d0775ad?auto=format&fit=crop&w=2000&q=80","spirituosen \u00b7 vodka":"https:\/\/images.unsplash.com\/photo-1550985543-f47f38aeee65?auto=format&fit=crop&w=2000&q=80","spirituosen \u00b7 gin":"https:\/\/images.unsplash.com\/photo-1623408859815-22534357b3db?auto=format&fit=crop&w=2000&q=80","spirituosen \u00b7 whiskey":"https:\/\/images.unsplash.com\/photo-1713742137866-cdeb0b0f5705?auto=format&fit=crop&w=2000&q=80","spirituosen \u00b7 rum":"https:\/\/images.unsplash.com\/photo-1692455129272-60299bc2b1a8?fm=jpg&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZGFyayUyMGJhcnxlbnwwfHwwfHx8MA%3D%3D&ixlib=rb-4.1.0&q=60&w=3000","lik\u00f6re":"https:\/\/images.unsplash.com\/photo-1692455129272-60299bc2b1a8?auto=format&fit=crop&w=2000&q=80","spritz & weincocktails":"https:\/\/images.unsplash.com\/photo-1756522075789-46fe38a0ac14?auto=format&fit=crop&w=2000&q=80","schaumwein & champagner":"https:\/\/images.unsplash.com\/photo-1682071308321-19127e9bd8ba?auto=format&fit=crop&w=2000&q=80","bier":"https:\/\/images.unsplash.com\/photo-1615332579037-3c44b3660b53?auto=format&fit=crop&w=2000&q=80","kalte getr\u00e4nke":"https:\/\/images.unsplash.com\/photo-1629654613528-5d0a2e4166de?auto=format&fit=crop&w=2000&q=80","warme getr\u00e4nke":"https:\/\/images.unsplash.com\/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=2000&q=80","shisha":"https:\/\/images.unsplash.com\/photo-1630175772812-3368aad7982d?auto=format&fit=crop&w=2000&q=80","hookah":"https:\/\/images.unsplash.com\/photo-1630175772812-3368aad7982d?auto=format&fit=crop&w=2000&q=80"};
+        const fallbackImg = "https:\/\/images.unsplash.com\/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&w=1500&q=80";
+        
+        let currentIndex = 0;
+        
+        function getImage(key) {
+            const normalized = key.toLowerCase().trim();
+            return imageMap[normalized] || fallbackImg;
+        }
+        
+        function currency(price) {
+            return typeof price === 'number' ? price.toFixed(2) + ' CHF' : '';
+        }
+        
+        function renderMenuItems(items) {
+            if (!items || items.length === 0) {
+                return '<div style="color: rgba(255,255,255,0.6);">Keine Einträge</div>';
+            }
+            
+            let html = '';
+            items.forEach(item => {
+                html += '<div class="menu-item">';
+                html += '<div class="menu-item-row">';
+                html += '<span class="menu-item-name">' + escapeHtml(item.name) + '</span>';
+                if (item.note) {
+                    html += '<span class="menu-item-dots"></span>';
+                }
+                html += '<span class="menu-item-price">' + currency(item.price) + '</span>';
+                html += '</div>';
+                if (item.note) {
+                    html += '<div class="menu-item-note">' + escapeHtml(item.note) + '</div>';
+                }
+                html += '</div>';
+            });
+            return html;
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function updateColumn(side, categoryIndex) {
+            const category = drinkCategories[categoryIndex];
+            const items = drinkGroups[category] || [];
+            const img = getImage(category);
+            
+            const imgEl = document.getElementById('img-' + side);
+            const titleEl = document.getElementById('title-' + side);
+            const menuEl = document.getElementById('menu-' + side);
+            
+            // Update content
+            titleEl.textContent = category || '—';
+            menuEl.innerHTML = renderMenuItems(items);
+            
+            // Update image
+            imgEl.src = img;
+            
+            // Reset scroll position
+            const scrollEl = document.getElementById('scroll-' + side);
+            scrollEl.scrollTop = 0;
+            
+            // Start auto-scroll for this column
+            startAutoScroll(scrollEl);
+        }
+        
+        function startAutoScroll(element) {
+            if (!element) return;
+            
+            // Cancel any existing animation
+            if (element._scrollRaf) {
+                cancelAnimationFrame(element._scrollRaf);
+            }
+            
+            const maxScroll = element.scrollHeight - element.clientHeight;
+            if (maxScroll <= 0) return;
+            
+            let direction = 1;
+            let startTime = performance.now();
+            
+            function tick(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / SCROLL_DURATION, 1);
+                const position = direction === 1 
+                    ? progress * maxScroll 
+                    : maxScroll - progress * maxScroll;
+                
+                element.scrollTop = position;
+                
+                if (progress < 1) {
+                    element._scrollRaf = requestAnimationFrame(tick);
+                } else {
+                    direction *= -1;
+                    startTime = performance.now();
+                    setTimeout(() => {
+                        element._scrollRaf = requestAnimationFrame(tick);
+                    }, HOLD_TIME);
+                }
+            }
+            
+            element._scrollRaf = requestAnimationFrame(tick);
+        }
+        
+        function rotateCategories() {
+            // Fade out
+            const imgLeft = document.getElementById('img-left');
+            const imgMiddle = document.getElementById('img-middle');
+            
+            setTimeout(() => {
+                imgLeft.classList.add('fade-out');
+                imgMiddle.classList.add('fade-out');
+            }, ROTATE_MS - FADE_MS);
+            
+            setTimeout(() => {
+                // Update to next categories
+                currentIndex = (currentIndex + 2) % drinkCategories.length;
+                const leftIndex = currentIndex;
+                const middleIndex = (currentIndex + 1) % drinkCategories.length;
+                
+                updateColumn('left', leftIndex);
+                updateColumn('middle', middleIndex);
+                
+                // Fade in
+                imgLeft.classList.remove('fade-out');
+                imgMiddle.classList.remove('fade-out');
+                
+                // Schedule next rotation
+                setTimeout(rotateCategories, ROTATE_MS);
+            }, ROTATE_MS);
+        }
+        
+        // Initialize
+        window.addEventListener('DOMContentLoaded', () => {
+            // Initial render
+            updateColumn('left', 0);
+            updateColumn('middle', 1);
+            
+            // Start rotation
+            if (drinkCategories.length > 0) {
+                setTimeout(rotateCategories, ROTATE_MS);
+            }
+        });
+    </script>
+</body>
 </html>
