@@ -23,7 +23,7 @@ export default defineConfig({
     viteSingleFile()
   ],
   build: {
-    outDir: 'public',
+    outDir: 'dist',
     emptyOutDir: true,
   },
   base: '/vibeswil-tv/'
