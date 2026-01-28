@@ -53,10 +53,10 @@ const currency = (n) => (typeof n === "number" ? `${n.toFixed(2)} CHF` : "");
 const DATA = {
   drinks: [
     // --- Wein ---
-    { category: "Rotwein", name: "Pinot Noir", price: 7.5, note: "1 dl · Flasche 70 cl / 57.00 CHF" },
-    { category: "Rotwein", name: "Primitivo", price: 8.0, note: "1 dl · Flasche 70 cl / 62.00 CHF" },
-    { category: "Weisswein", name: "Pinot Grigio", price: 6.5, note: "1 dl · Flasche 70 cl / 44.00 CHF" },
-    { category: "Weisswein", name: "Chardonnay", price: 7.0, note: "1 dl · Flasche 70 cl / 53.00 CHF" },
+    { category: "Rotwein", name: "Pinot Noir", price: 7.5, note: "1 dl · Flasche 70 cl" },
+    { category: "Rotwein", name: "Primitivo", price: 8.0, note: "1 dl · Flasche 70 cl" },
+    { category: "Weisswein", name: "Pinot Grigio", price: 6.5, note: "1 dl · Flasche 70 cl" },
+    { category: "Weisswein", name: "Chardonnay", price: 7.0, note: "1 dl · Flasche 70 cl" },
 
     // --- Cocktails mit Alkohol ---
     { category: "Cocktails", name: "Good Vibes", price: 15.5, note: "Vodka · Himbeerenpüree · Cranberrysaft · Limette · Rohrzucker" },
@@ -95,29 +95,29 @@ const DATA = {
     { category: "Aperitifs", name: "Zusätze", note: "Red Bull +3 CHF · Cola/Tonic/Bitter Lemon +2.50 CHF · Fruchtsäfte +2 CHF" },
 
     // --- Spirituosen ---
-    { category: "Spirituosen · Vodka", name: "Absolut Vodka", price: 12.0, note: "4 cl · Flasche 70 cl / 140 CHF · 40%" },
-    { category: "Spirituosen · Vodka", name: "Belvedere", price: 14.0, note: "4 cl · Flasche 70 cl / 220 CHF · 40%" },
-    { category: "Spirituosen · Vodka", name: "Grey Goose", price: 14.0, note: "4 cl · Flasche 70 cl / 220 CHF · 40%" },
-    { category: "Spirituosen · Vodka", name: "Trojka Red", price: 11.0, note: "4 cl · Flasche 70 cl / 130 CHF · 24%" },
-    { category: "Spirituosen · Vodka", name: "Trojka Green", price: 11.0, note: "4 cl · Flasche 70 cl / 130 CHF · 17%" },
-    { category: "Spirituosen · Vodka", name: "Trojka Black", price: 11.0, note: "4 cl · Flasche 70 cl / 130 CHF · 17%" },
-    { category: "Spirituosen · Vodka", name: "Trojka Weiss", note: "Flasche 70 cl / 130 CHF · 40%" },
+    { category: "Spirituosen · Vodka", name: "Absolut Vodka", price: 12.0, note: "4 cl · Flasche 70 cl · 40%" },
+    { category: "Spirituosen · Vodka", name: "Belvedere", price: 14.0, note: "4 cl · Flasche 70 cl · 40%" },
+    { category: "Spirituosen · Vodka", name: "Grey Goose", price: 14.0, note: "4 cl · Flasche 70 cl · 40%" },
+    { category: "Spirituosen · Vodka", name: "Trojka Red", price: 11.0, note: "4 cl · Flasche 70 cl · 24%" },
+    { category: "Spirituosen · Vodka", name: "Trojka Green", price: 11.0, note: "4 cl · Flasche 70 cl · 17%" },
+    { category: "Spirituosen · Vodka", name: "Trojka Black", price: 11.0, note: "4 cl · Flasche 70 cl · 17%" },
+    { category: "Spirituosen · Vodka", name: "Trojka Weiss", note: "Flasche 70 cl · 40%" },
 
-    { category: "Spirituosen · Gin", name: "Gordons Gin", price: 12.0, note: "4 cl · Flasche 70 cl / 130 CHF · 38%" },
-    { category: "Spirituosen · Gin", name: "Bombay Sapphire", price: 13.0, note: "4 cl · Flasche 70 cl / 140 CHF · 40%" },
-    { category: "Spirituosen · Gin", name: "Hendrick’s", price: 14.0, note: "4 cl · Flasche 70 cl / 160 CHF · 41%" },
+    { category: "Spirituosen · Gin", name: "Gordons Gin", price: 12.0, note: "4 cl · Flasche 70 cl · 38%" },
+    { category: "Spirituosen · Gin", name: "Bombay Sapphire", price: 13.0, note: "4 cl · Flasche 70 cl · 40%" },
+    { category: "Spirituosen · Gin", name: "Hendrick’s", price: 14.0, note: "4 cl · Flasche 70 cl · 41%" },
 
-    { category: "Spirituosen · Whiskey", name: "Jack Daniels Old No. 7", price: 13.0, note: "4 cl · Flasche 70 cl / 140 CHF · 40%" },
-    { category: "Spirituosen · Whiskey", name: "Chivas Regal 12 Years", price: 16.0, note: "4 cl · Flasche 70 cl / 160 CHF · 40%" },
-    { category: "Spirituosen · Whiskey", name: "Chivas Regal 18 Years", price: 18.0, note: "4 cl · Flasche 70 cl / 190 CHF · 40%" },
-    { category: "Spirituosen · Whiskey", name: "Ballantine’s", note: "Flasche 70 cl / 130 CHF · 40%" },
-    { category: "Spirituosen · Whiskey", name: "Gentleman Jack", note: "Flasche 70 cl / 140 CHF · 40%" },
+    { category: "Spirituosen · Whiskey", name: "Jack Daniels Old No. 7", price: 13.0, note: "4 cl · Flasche 70 cl · 40%" },
+    { category: "Spirituosen · Whiskey", name: "Chivas Regal 12 Years", price: 16.0, note: "4 cl · Flasche 70 cl · 40%" },
+    { category: "Spirituosen · Whiskey", name: "Chivas Regal 18 Years", price: 18.0, note: "4 cl · Flasche 70 cl · 40%" },
+    { category: "Spirituosen · Whiskey", name: "Ballantine’s", note: "Flasche 70 cl · 40%" },
+    { category: "Spirituosen · Whiskey", name: "Gentleman Jack", note: "Flasche 70 cl · 40%" },
 
-    { category: "Spirituosen · Rum", name: "Havana Club Añejo 3 Años", price: 12.0, note: "4 cl · Flasche 70 cl / 130 CHF · 40%" },
-    { category: "Spirituosen · Rum", name: "Havana Club Reserva", price: 13.0, note: "4 cl · Flasche 70 cl / 140 CHF · 40%" },
-    { category: "Spirituosen · Rum", name: "Havana Club 7 Años", price: 14.0, note: "4 cl · Flasche 70 cl / 150 CHF · 40%" },
-    { category: "Spirituosen · Rum", name: "Bacardi Superior", price: 13.0, note: "4 cl · Flasche 70 cl / 140 CHF · 38%" },
-    { category: "Spirituosen · Rum", name: "Bacardi Black", price: 13.0, note: "4 cl · Flasche 70 cl / 140 CHF · 38%" },
+    { category: "Spirituosen · Rum", name: "Havana Club Añejo 3 Años", price: 12.0, note: "4 cl · Flasche 70 cl · 40%" },
+    { category: "Spirituosen · Rum", name: "Havana Club Reserva", price: 13.0, note: "4 cl · Flasche 70 cl · 40%" },
+    { category: "Spirituosen · Rum", name: "Havana Club 7 Años", price: 14.0, note: "4 cl · Flasche 70 cl · 40%" },
+    { category: "Spirituosen · Rum", name: "Bacardi Superior", price: 13.0, note: "4 cl · Flasche 70 cl · 38%" },
+    { category: "Spirituosen · Rum", name: "Bacardi Black", price: 13.0, note: "4 cl · Flasche 70 cl · 38%" },
     { category: "Spirituosen · Rum", name: "Zusätze", note: "Red Bull +3 CHF · Cola/Tonic/Bitter Lemon +2.50 CHF · Fruchtsäfte +2 CHF" },
 
     // --- Liköre ---
@@ -137,11 +137,11 @@ const DATA = {
     { category: "Spritz & Weincocktails", name: "Lillet Blanc", price: 12.5, note: "20 cl" },
     { category: "Spritz & Weincocktails", name: "Lillet Rosé", price: 12.5, note: "20 cl" },
     { category: "Spritz & Weincocktails", name: "Apricot Spritz", price: 12.5, note: "20 cl" },
-    { category: "Schaumwein & Champagner", name: "Prosecco Spumante", price: 9.0, note: "10 cl · Flasche 75 cl / 80.00 CHF" },
-    { category: "Schaumwein & Champagner", name: "Champagne Moët", note: "Flasche 75 cl / 125.00 CHF" },
-    { category: "Schaumwein & Champagner", name: "Chandon Brut Imperial", note: "Flasche 75 cl / 125.00 CHF" },
-    { category: "Schaumwein & Champagner", name: "Moët Ice", note: "Flasche 75 cl / 125.00 CHF" },
-    { category: "Schaumwein & Champagner", name: "Chandon Ice", note: "Flasche 75 cl / 125.00 CHF" },
+    { category: "Schaumwein & Champagner", name: "Prosecco Spumante", price: 9.0, note: "10 cl · Flasche 75 cl" },
+    { category: "Schaumwein & Champagner", name: "Champagne Moët", note: "Flasche 75 cl" },
+    { category: "Schaumwein & Champagner", name: "Chandon Brut Imperial", note: "Flasche 75 cl" },
+    { category: "Schaumwein & Champagner", name: "Moët Ice", note: "Flasche 75 cl" },
+    { category: "Schaumwein & Champagner", name: "Chandon Ice", note: "Flasche 75 cl" },
 
     // --- Bier ---
     { category: "Bier", name: "Haldengut Lager", price: 5.5, note: "30 cl · 5%" },
