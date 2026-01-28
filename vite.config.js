@@ -19,6 +19,10 @@ export default defineConfig({
       modernPolyfills: true
     })
   ],
-  build: { target: 'es2015' },
+  // build: { target: 'es2015' },
+    build: {
+      outDir: 'public',
+      emptyOutDir: true,
+    },
   base: '/vibeswil-tv/'
 })
