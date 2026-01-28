@@ -260,11 +260,11 @@ export default function VibesWilTV() {
       {/* Drei Spalten */}
       <div className="grid grid-cols-3 h-[85vh]" style={{ fontSize: `${fontScale}rem` }}>
         <FullBgColumn title={leftCat || "—"} bg={getImage(leftCat)} fading={fading}>
-          <MenuList items={drinkGroups[leftCat] || []} />
+          <MenuList items={drinkGroups[leftCat] || []} showPrice={false} />
         </FullBgColumn>
 
         <FullBgColumn title={rightCat || "—"} bg={getImage(rightCat)} fading={fading}>
-          <MenuList items={drinkGroups[rightCat] || []} />
+          <MenuList items={drinkGroups[rightCat] || []} showPrice={false} />
         </FullBgColumn>
 
         <FullBgColumn title="Shisha · Tabak" bg={getImage("shisha")} fading={false}>
@@ -447,14 +447,14 @@ function FullBgColumn({ title, bg, children, fading }) {
   );
 }
 
-function MenuList({ items }) {
+function MenuList({ items, showPrice }) {
   if (!items || items.length === 0)
     return <div className="text-white/60">Keine Einträge</div>;
 
   return (
     <ul className="divide-y" style={{ borderColor: BORDER_GOLD }}>
       {items.map((d, i) => (
-        <MenuRow key={i} label={d.name} price={d.price} note={d.note} />
+        <MenuRow key={i} label={d.name} price={showPrice ? d.price : undefined} note={d.note} />
       ))}
     </ul>
   );
@@ -476,9 +476,11 @@ function MenuRow({ label, price, note }) {
           <span className="flex-1 mx-3" />
         )}
 
-        <span className="text-lg md:text-xl font-semibold" style={{ color: GOLD }}>
-          {currency(price)}
-        </span>
+        {typeof price === 'number' && (
+          <span className="text-lg md:text-xl font-semibold" style={{ color: GOLD }}>
+            {currency(price)}
+          </span>
+        )}
       </div>
 
       {/* Beschreibung (note) */}
