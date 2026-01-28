@@ -1,3 +1,42 @@
+.grid.grid-cols-3 > .relative > .relative.z-10.h-full {
+  flex: 1 1 auto;
+  min-height: 0 !important;
+  height: 100% !important;
+  display: flex;
+  flex-direction: column;
+}
+.grid.grid-cols-3 > .relative > .relative.z-10.h-full > div[ref],
+.grid.grid-cols-3 > .relative > .relative.z-10.h-full > ul {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+/* Erzwinge volle Höhe für jede Spalte und das Bild, ohne List-Styling zu beeinflussen */
+.grid.grid-cols-3 {
+  height: 85vh;
+  min-height: 400px;
+  align-items: stretch;
+}
+.grid.grid-cols-3 > .relative {
+  height: 100% !important;
+  min-height: 0 !important;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.grid.grid-cols-3 > .relative > .absolute.inset-0 {
+  height: 100% !important;
+}
+.grid.grid-cols-3 img {
+  height: 100% !important;
+  min-height: 0 !important;
+  object-fit: cover !important;
+}
+.grid.grid-cols-3 > .relative > .relative.z-10.h-full {
+  height: 100% !important;
+  min-height: 0 !important;
+  display: flex;
+  flex-direction: column;
+}
 /* Erzwinge volle Höhe für alle Grid-Spalten und deren Inhalt */
 .min-h-screen {
   min-height: 100vh;
@@ -12,7 +51,6 @@
   min-height: 0 !important;
   display: flex;
   flex-direction: column;
-  position: relative;
 }
 .grid.grid-cols-3 > .relative > .absolute.inset-0 {
   height: 100% !important;

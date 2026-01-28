@@ -395,7 +395,7 @@ function FullBgColumn({ title, bg, children, fading }) {
   }, [title]);
 
   return (
-    <div className="relative overflow-hidden h-full flex flex-col">
+    <div className="relative overflow-hidden h-full">
       {/* --- Hintergrundbild --- */}
       <div className="absolute inset-0">
         <img
@@ -416,7 +416,7 @@ function FullBgColumn({ title, bg, children, fading }) {
       </div>
 
       {/* --- Inhalt --- */}
-      <div className="relative z-10 flex-1 flex flex-col items-start justify-start px-8 py-8 min-h-0">
+      <div className="relative z-10 h-full flex flex-col items-start justify-start px-8 py-8">
         <h2
           className="text-3xl mb-4 font-serif drop-shadow-[0_3px_8px_rgba(0,0,0,1)]"
           style={{ color: GOLD, fontWeight: 800 }}
