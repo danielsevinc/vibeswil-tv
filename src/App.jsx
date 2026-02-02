@@ -239,8 +239,43 @@ export default function VibesWilTV() {
       fade = setTimeout(() => setFading(true), ROTATE_MS - FADE_MS);
       next = setTimeout(() => {
         setIdx((i) => (i + 2) % drinkCategories.length);
-      });
-// ...existing code...
+        setFading(false);
+      }, ROTATE_MS);
+    };
+    loop();
+    return () => {
+      clearTimeout(fade);
+      clearTimeout(next);
+    };
+  }, [drinkCategories.length]);
+
+  const currentCategories = [
+    drinkCategories[idx % drinkCategories.length],
+    drinkCategories[(idx + 1) % drinkCategories.length]
+  ].filter(Boolean);
+
+  return (
+    <div className="min-h-screen bg-black text-white p-8">
+      <div className="grid grid-cols-3 gap-8">
+        {currentCategories.map((cat, i) => (
+          <div key={i} className="space-y-4" style={{ opacity: fading ? 0 : 1, transition: `opacity ${FADE_MS}ms` }}>
+            <h2 className="text-2xl font-bold" style={{ color: GOLD }}>{cat}</h2>
+            <MenuList items={drinkGroups[cat]} showPrice />
+          </div>
+        ))}
+        <div className="space-y-4">
+          <h2 className="text-2xl font-bold" style={{ color: GOLD }}>Shisha</h2>
+          {Object.keys(shishaGroups).map(brand => (
+            <div key={brand}>
+              <h3 className="text-xl font-semibold mb-2">{brand}</h3>
+              <MenuList items={shishaGroups[brand]} showPrice />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function MenuList({ items, showPrice }) {
   if (!items || items.length === 0)
@@ -280,6 +315,6 @@ function MenuRow({ label, price, note }) {
 
       {/* Beschreibung (note) */}
       {note && <div className="text-sm text-white/70 mt-1">{note}</div>}
-    </li>
+    </li> 
   );
 }
