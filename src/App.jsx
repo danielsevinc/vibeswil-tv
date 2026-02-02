@@ -432,15 +432,15 @@ function FullBgColumn({ title, bg, children, fading }) {
     <div className="relative overflow-hidden h-full">
       {/* --- Hintergrundbild --- */}
       <div className="absolute inset-0">
-        <img
-          src={src}
-          alt={normalize(title)}
-          onError={() => setSrc(FALLBACK_IMG)}
-          className={`w-full h-full object-center object-cover transition-opacity duration-700 ${
-            fading ? "opacity-0" : "opacity-100"
-          }`}
-          style={{ filter: "brightness(35%) contrast(110%)" }} // <— dunkler, aber sichtbar!
-        />
+          <img
+            src={src}
+            alt={normalize(title)}
+            onError={() => setSrc(FALLBACK_IMG)}
+            className={`absolute top-0 left-0 w-full h-full object-cover object-center transition-opacity duration-700 ${
+              fading ? "opacity-0" : "opacity-100"
+            }`}
+            style={{ height: "100%", width: "100%", filter: "brightness(35%) contrast(110%)", objectFit: "cover", objectPosition: "center" }}
+          />
       </div>
 
       {/* --- Stärkere Abdunkelung + Verlauf --- */}
