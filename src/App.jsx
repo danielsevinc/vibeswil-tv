@@ -221,6 +221,7 @@ const DATA = {
 
 export default function VibesWilTV() {
   // Vollbildmodus
+  const [isFullscreen, setIsFullscreen] = useState(false);
   function toggleFullscreen() {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen();
@@ -230,6 +231,15 @@ export default function VibesWilTV() {
       }
     }
   }
+  useEffect(() => {
+    function handleFullscreenChange() {
+      setIsFullscreen(!!document.fullscreenElement);
+    }
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    };
+  }, []);
   const ROTATE_MS = 10000;
   const FADE_MS = 400;
   const [fontScale, setFontScale] = useState(0.9);
@@ -265,26 +275,28 @@ export default function VibesWilTV() {
 
   return (
     <div className="min-h-screen text-white bg-black">
-        {/* Vollbild-Button oben rechts */}
-        <button
-          style={{
-            position: "fixed",
-            top: 20,
-            right: 20,
-            zIndex: 2000,
-            padding: "10px 18px",
-            background: GOLD,
-            color: "#222",
-            border: "none",
-            borderRadius: "8px",
-            fontWeight: 700,
-            cursor: "pointer",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.15)"
-          }}
-          onClick={toggleFullscreen}
-        >
-          Vollbild
-        </button>
+        {/* Vollbild-Button oben rechts, nur wenn nicht im Vollbild */}
+        {!isFullscreen && (
+          <button
+            style={{
+              position: "fixed",
+              top: 20,
+              right: 20,
+              zIndex: 2000,
+              padding: "10px 18px",
+              background: GOLD,
+              color: "#222",
+              border: "none",
+              borderRadius: "8px",
+              fontWeight: 700,
+              cursor: "pointer",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.15)"
+            }}
+            onClick={toggleFullscreen}
+          >
+            Vollbild
+          </button>
+        )}
       <Header fontScale={fontScale} setFontScale={setFontScale} />
 
       {/* Drei Spalten */}
@@ -483,13 +495,14 @@ function MenuList({ items, showPrice }) {
 }
 
 function MenuRow({ label, price, note }) {
+  // Für "Eine Mischung deiner Wahl" keine Linie anzeigen
+  const isSpecial = label === "Eine Mischung deiner Wahl";
   return (
     <li className="py-2">
       <div className="flex items-baseline">
-        <span className="text-lg md:text-xl font-medium truncate">{label}</span>
-
-        {/* Linie nur, wenn es eine Beschreibung (note) gibt */}
-        {note ? (
+        <span className={`text-lg md:text-xl font-${isSpecial ? "bold" : "medium"} truncate`} style={isSpecial ? { color: GOLD } : {}}>{label}</span>
+        {/* Linie nur, wenn es eine Beschreibung (note) gibt und nicht der Spezialtitel */}
+        {note && !isSpecial ? (
           <span
             className="flex-1 mx-3 border-b border-dotted"
             style={{ borderColor: BORDER_GOLD }}
@@ -497,14 +510,12 @@ function MenuRow({ label, price, note }) {
         ) : (
           <span className="flex-1 mx-3" />
         )}
-
         {typeof price === 'number' && (
           <span className="text-lg md:text-xl font-semibold" style={{ color: GOLD }}>
             {currency(price)}
           </span>
         )}
       </div>
-
       {/* Beschreibung (note) */}
       {note && <div className="text-sm text-white/70 mt-1">{note}</div>}
     </li>
