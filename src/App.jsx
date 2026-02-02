@@ -274,12 +274,20 @@ export default function VibesWilTV() {
                 {/* Kein Preis-Hinweis mehr */}
                 <ul className="divide-y" style={{ borderColor: BORDER_GOLD }}>
                   {items.map((t, i) => (
-                    <MenuRow
-                      key={`${brand}-${i}`}
-                      label={t.flavor}
-                      price={undefined}
-                      note={t.note}
-                    />
+                    t.flavor === "Eine Mischung deiner Wahl"
+                      ? (
+                        <li key={`${brand}-${i}`} className="py-2">
+                          <span className="text-lg md:text-xl font-bold" style={{ color: GOLD }}>{t.flavor}</span>
+                        </li>
+                      )
+                      : (
+                        <MenuRow
+                          key={`${brand}-${i}`}
+                          label={t.flavor}
+                          price={undefined}
+                          note={t.note}
+                        />
+                      )
                   ))}
                 </ul>
               </div>
@@ -310,51 +318,71 @@ function Header({ fontScale, setFontScale }) {
             min={0.9}
             max={1.6}
             step={0.05}
-            value={fontScale}
-            onChange={(e) => setFontScale(Number(e.target.value))}
-            className="accent-white"
-          />
-          <span
-            className="font-mono px-2 py-0.5 rounded"
-            style={{
-              border: `1px solid ${BORDER_GOLD}`,
-              background: "rgba(255,255,255,0.06)",
-            }}
-          >
-            {fontScale.toFixed(2)}×
-          </span>
-        </div>
-        */}
-      </div>
-    </div>
-  );
-}
+            const handleFullscreen = () => {
+              if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+              } else if (document.documentElement.webkitRequestFullscreen) {
+                document.documentElement.webkitRequestFullscreen();
+              } else if (document.documentElement.msRequestFullscreen) {
+                document.documentElement.msRequestFullscreen();
+              }
+            };
 
-/* --- Hauptspalte mit dunklem Overlay und Top-Alignment --- */
-function FullBgColumn({ title, bg, children, fading }) {
-  const [src, setSrc] = useState(bg || FALLBACK_IMG);
-  const scrollRef = React.useRef(null);
+            return (
+              <div className="min-h-screen text-white bg-black">
+                <Header fontScale={fontScale} setFontScale={setFontScale} />
 
-  useEffect(() => setSrc(bg || FALLBACK_IMG), [bg]);
+                <div className="w-full flex justify-end px-8 pt-4">
+                  <button
+                    onClick={handleFullscreen}
+                    className="bg-black/70 border border-yellow-700 text-yellow-400 px-4 py-2 rounded hover:bg-yellow-900 hover:text-white transition"
+                    style={{ fontWeight: 600 }}
+                  >
+                    Vollbild
+                  </button>
+                </div>
 
-  // automatisches Scrollen
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
+                {/* Drei Spalten */}
+                <div className="grid grid-cols-3 h-[85vh]" style={{ fontSize: `${fontScale}rem` }}>
+                  <FullBgColumn title={leftCat || "—"} bg={getImage(leftCat)} fading={fading}>
+                    <MenuList items={drinkGroups[leftCat] || []} showPrice={false} />
+                  </FullBgColumn>
 
-    let raf;
-    const maxScroll = el.scrollHeight - el.clientHeight;
-    if (maxScroll <= 0) return;
+                  <FullBgColumn title={rightCat || "—"} bg={getImage(rightCat)} fading={fading}>
+                    <MenuList items={drinkGroups[rightCat] || []} showPrice={false} />
+                  </FullBgColumn>
 
-    const SCROLL_DURATION = 4000; // schnellere Scrollzeit
-    const HOLD_TIME = 1000;
+                  <FullBgColumn title="Shisha · Tabak" bg={getImage("shisha")} fading={false}>
+                    <div className="space-y-6">
+                      {Object.entries(shishaGroups).map(([brand, items]) => (
+                        <div key={brand} className="mb-6">
+                          {/* Kein Preis-Hinweis mehr */}
+                          <ul className="divide-y" style={{ borderColor: BORDER_GOLD }}>
+                            {items.map((t, i) => (
+                              t.flavor === "Eine Mischung deiner Wahl"
+                                ? (
+                                  <li key={`${brand}-${i}`} className="py-2">
+                                    <span className="text-lg md:text-xl font-bold" style={{ color: GOLD }}>{t.flavor}</span>
+                                  </li>
+                                )
+                                : (
+                                  <MenuRow
+                                    key={`${brand}-${i}`}
+                                    label={t.flavor}
+                                    price={undefined}
+                                    note={t.note}
+                                  />
+                                )
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  </FullBgColumn>
+                </div>
 
-    let direction = 1;
-    let start = performance.now();
-
-    const tick = (t) => {
-      const elapsed = t - start;
-      const progress = Math.min(elapsed / SCROLL_DURATION, 1);
+                <Footer />
+              </div>
       const pos = direction === 1 ? progress * maxScroll : maxScroll - progress * maxScroll;
       el.scrollTop = pos;
 
