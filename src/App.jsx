@@ -220,6 +220,16 @@ const DATA = {
 
 
 export default function VibesWilTV() {
+  // Vollbildmodus
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+  }
   const ROTATE_MS = 10000;
   const FADE_MS = 400;
   const [fontScale, setFontScale] = useState(0.9);
@@ -255,6 +265,26 @@ export default function VibesWilTV() {
 
   return (
     <div className="min-h-screen text-white bg-black">
+        {/* Vollbild-Button oben rechts */}
+        <button
+          style={{
+            position: "fixed",
+            top: 20,
+            right: 20,
+            zIndex: 2000,
+            padding: "10px 18px",
+            background: GOLD,
+            color: "#222",
+            border: "none",
+            borderRadius: "8px",
+            fontWeight: 700,
+            cursor: "pointer",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.15)"
+          }}
+          onClick={toggleFullscreen}
+        >
+          Vollbild
+        </button>
       <Header fontScale={fontScale} setFontScale={setFontScale} />
 
       {/* Drei Spalten */}
@@ -273,14 +303,27 @@ export default function VibesWilTV() {
               <div key={brand} className="mb-6">
                 {/* Kein Preis-Hinweis mehr */}
                 <ul className="divide-y" style={{ borderColor: BORDER_GOLD }}>
-                  {items.map((t, i) => (
-                    <MenuRow
-                      key={`${brand}-${i}`}
-                      label={t.flavor}
-                      price={undefined}
-                      note={t.note}
-                    />
-                  ))}
+                    {items.map((t, i) => {
+                      // Entferne Unterstreichung für "Eine Mischung deiner Wahl"
+                      if (t.flavor === "Eine Mischung deiner Wahl") {
+                        return (
+                          <li key={`${brand}-${i}`} className="py-2">
+                            <div className="flex items-baseline">
+                              <span className="text-lg md:text-xl font-bold" style={{ color: GOLD }}>{t.flavor}</span>
+                              <span className="flex-1 mx-3" />
+                            </div>
+                          </li>
+                        );
+                      }
+                      return (
+                        <MenuRow
+                          key={`${brand}-${i}`}
+                          label={t.flavor}
+                          price={undefined}
+                          note={t.note}
+                        />
+                      );
+                    })}
                 </ul>
               </div>
             ))}
