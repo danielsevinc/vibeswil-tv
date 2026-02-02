@@ -300,7 +300,7 @@ export default function VibesWilTV() {
       <Header fontScale={fontScale} setFontScale={setFontScale} />
 
       {/* Drei Spalten */}
-      <div className="grid grid-cols-3 h-screen" style={{ fontSize: `${fontScale}rem` }}>
+      <div className="grid grid-cols-3 h-[85vh]" style={{ fontSize: `${fontScale}rem` }}>
         <FullBgColumn title={leftCat || "—"} bg={getImage(leftCat)} fading={fading}>
           <MenuList items={drinkGroups[leftCat] || []} showPrice={false} />
         </FullBgColumn>
@@ -432,15 +432,15 @@ function FullBgColumn({ title, bg, children, fading }) {
     <div className="relative overflow-hidden h-full">
       {/* --- Hintergrundbild --- */}
       <div className="absolute inset-0">
-          <img
-            src={src}
-            alt={normalize(title)}
-            onError={() => setSrc(FALLBACK_IMG)}
-            className={`w-full h-full object-cover object-center transition-opacity duration-700 ${
-              fading ? "opacity-0" : "opacity-100"
-            }`}
-            style={{ filter: "brightness(35%) contrast(110%)" }}
-          />
+        <img
+          src={src}
+          alt={normalize(title)}
+          onError={() => setSrc(FALLBACK_IMG)}
+          className={`w-full h-full object-center object-cover transition-opacity duration-700 ${
+            fading ? "opacity-0" : "opacity-100"
+          }`}
+          style={{ filter: "brightness(35%) contrast(110%)" }} // <— dunkler, aber sichtbar!
+        />
       </div>
 
       {/* --- Stärkere Abdunkelung + Verlauf --- */}
