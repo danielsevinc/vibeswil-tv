@@ -13,24 +13,24 @@ const FALLBACK_IMG =
 
 // Bild-Zuordnung (normalisierte Keys)
 const IMAGE_MAP = {
-  "rotwein": "https://images.unsplash.com/photo-1544776527-68e63addedf7?auto=format&fit=crop&w=2000&q=80",
-  "weisswein": "https://images.unsplash.com/photo-1696081248263-af609cc61ffa?auto=format&fit=crop&w=2000&q=80",
-  "cocktails": "https://images.unsplash.com/photo-1748674758581-2afc6adebc19?auto=format&fit=crop&w=2000&q=80",
-  "mocktails": "https://images.unsplash.com/photo-1610515660473-c11d4f3f7d37?auto=format&fit=crop&w=2000&q=80",
-  "shots": "https://images.unsplash.com/photo-1681555597955-9d478f4dbf69?auto=format&fit=crop&w=2000&q=80",
-  "aperitifs": "https://images.unsplash.com/photo-1607687332053-ef831d0775ad?auto=format&fit=crop&w=2000&q=80",
-  "spirituosen · vodka": "https://images.unsplash.com/photo-1550985543-f47f38aeee65?auto=format&fit=crop&w=2000&q=80",
-  "spirituosen · gin": "https://images.unsplash.com/photo-1623408859815-22534357b3db?auto=format&fit=crop&w=2000&q=80",
-  "spirituosen · whiskey": "https://images.unsplash.com/photo-1713742137866-cdeb0b0f5705?auto=format&fit=crop&w=2000&q=80",
-  "spirituosen · rum": "https://images.unsplash.com/photo-1692455129272-60299bc2b1a8?fm=jpg&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZGFyayUyMGJhcnxlbnwwfHwwfHx8MA%3D%3D&ixlib=rb-4.1.0&q=60&w=3000",
-  "liköre": "https://images.unsplash.com/photo-1692455129272-60299bc2b1a8?auto=format&fit=crop&w=2000&q=80",
-  "spritz & weincocktails": "https://images.unsplash.com/photo-1756522075789-46fe38a0ac14?auto=format&fit=crop&w=2000&q=80",
-  "schaumwein & champagner": "https://images.unsplash.com/photo-1682071308321-19127e9bd8ba?auto=format&fit=crop&w=2000&q=80",
-  "bier": "https://images.unsplash.com/photo-1615332579037-3c44b3660b53?auto=format&fit=crop&w=2000&q=80",
-  "kalte getränke": "https://images.unsplash.com/photo-1629654613528-5d0a2e4166de?auto=format&fit=crop&w=2000&q=80",
-  "warme getränke": "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=2000&q=80",
-  "shisha": "https://images.unsplash.com/photo-1630175772812-3368aad7982d?auto=format&fit=crop&w=2000&q=80",
-  "hookah": "https://images.unsplash.com/photo-1630175772812-3368aad7982d?auto=format&fit=crop&w=2000&q=80"
+  "rotwein": "https://images.unsplash.com/photo-1544776527-68e63addedf7?auto=format&fit=crop&w=2000&h=1080&q=80",
+  "weisswein": "https://images.unsplash.com/photo-1696081248263-af609cc61ffa?auto=format&fit=crop&w=2000&h=1080&q=80",
+  "cocktails": "https://images.unsplash.com/photo-1748674758581-2afc6adebc19?auto=format&fit=crop&w=2000&h=1080&q=80",
+  "mocktails": "https://images.unsplash.com/photo-1610515660473-c11d4f3f7d37?auto=format&fit=crop&w=2000&h=1080&q=80",
+  "shots": "https://images.unsplash.com/photo-1681555597955-9d478f4dbf69?auto=format&fit=crop&w=2000&h=1080&q=80",
+  "aperitifs": "https://images.unsplash.com/photo-1607687332053-ef831d0775ad?auto=format&fit=crop&w=2000&h=1080&q=80",
+  "spirituosen · vodka": "https://images.unsplash.com/photo-1550985543-f47f38aeee65?auto=format&fit=crop&w=2000&h=1080&q=80",
+  "spirituosen · gin": "https://images.unsplash.com/photo-1623408859815-22534357b3db?auto=format&fit=crop&w=2000&h=1080&q=80",
+  "spirituosen · whiskey": "https://images.unsplash.com/photo-1713742137866-cdeb0b0f5705?auto=format&fit=crop&w=2000&h=1080&q=80",
+  "spirituosen · rum": "https://images.unsplash.com/photo-1692455129272-60299bc2b1a8?fm=jpg&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZGFyayUyMGJhcnxlbnwwfHwwfHx8MA%3D%3D&ixlib=rb-4.1.0&q=60&w=3000&h=1080",
+  "liköre": "https://images.unsplash.com/photo-1692455129272-60299bc2b1a8?auto=format&fit=crop&w=2000&h=1080&q=80",
+  "spritz & weincocktails": "https://images.unsplash.com/photo-1756522075789-46fe38a0ac14?auto=format&fit=crop&w=2000&h=1080&q=80",
+  "schaumwein & champagner": "https://images.unsplash.com/photo-1682071308321-19127e9bd8ba?auto=format&fit=crop&w=2000&h=1080&q=80",
+  "bier": "https://images.unsplash.com/photo-1615332579037-3c44b3660b53?auto=format&fit=crop&w=2000&h=1080&q=80",
+  "kalte getränke": "https://images.unsplash.com/photo-1629654613528-5d0a2e4166de?auto=format&fit=crop&w=2000&h=1080&q=80",
+  "warme getränke": "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=2000&h=1080&q=80",
+  "shisha": "https://images.unsplash.com/photo-1630175772812-3368aad7982d?auto=format&fit=crop&w=2000&h=1080&q=80",
+  "hookah": "https://images.unsplash.com/photo-1630175772812-3368aad7982d?auto=format&fit=crop&w=2000&h=1080&q=80"
 };
 
 // Hilfsfunktionen
