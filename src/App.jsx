@@ -317,4 +317,4 @@ function MenuRow({ label, price, note }) {
       {note && <div className="text-sm text-white/70 mt-1">{note}</div>}
     </li> 
   );
-}
+} 
