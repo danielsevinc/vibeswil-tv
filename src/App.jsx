@@ -300,7 +300,7 @@ export default function VibesWilTV() {
       <Header fontScale={fontScale} setFontScale={setFontScale} />
 
       {/* Drei Spalten */}
-      <div className="grid grid-cols-3 h-screen" style={{ fontSize: `${fontScale}rem` }}>
+      <div className="grid grid-cols-3 h-screen min-h-0" style={{ fontSize: `${fontScale}rem` }}>
         <FullBgColumn title={leftCat || "—"} bg={getImage(leftCat)} fading={fading}>
           <MenuList items={drinkGroups[leftCat] || []} showPrice={false} />
         </FullBgColumn>
@@ -429,7 +429,7 @@ function FullBgColumn({ title, bg, children, fading }) {
   }, [title]);
 
   return (
-    <div className="relative overflow-hidden h-full">
+    <div className="relative overflow-hidden h-full flex flex-col min-h-0 flex-1">
       {/* --- Hintergrundbild --- */}
       <div className="absolute inset-0">
           <img
