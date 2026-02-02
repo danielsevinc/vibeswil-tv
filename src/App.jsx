@@ -436,10 +436,10 @@ function FullBgColumn({ title, bg, children, fading }) {
             src={src}
             alt={normalize(title)}
             onError={() => setSrc(FALLBACK_IMG)}
-            className={`absolute top-0 left-0 w-full h-full object-cover object-center transition-opacity duration-700 ${
+            className={`w-full h-full object-cover object-center transition-opacity duration-700 ${
               fading ? "opacity-0" : "opacity-100"
             }`}
-            style={{ height: "100%", width: "100%", filter: "brightness(35%) contrast(110%)", objectFit: "cover", objectPosition: "center" }}
+            style={{ filter: "brightness(35%) contrast(110%)" }}
           />
       </div>
 
