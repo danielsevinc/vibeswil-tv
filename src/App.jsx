@@ -239,224 +239,13 @@ export default function VibesWilTV() {
       fade = setTimeout(() => setFading(true), ROTATE_MS - FADE_MS);
       next = setTimeout(() => {
         setIdx((i) => (i + 2) % drinkCategories.length);
-        setFading(false);
-        loop();
-      }, ROTATE_MS);
-    };
-    loop();
-    return () => {
-      clearTimeout(fade);
-      clearTimeout(next);
-    };
-  }, [drinkCategories.length]);
-
-  const leftCat = drinkCategories.length ? drinkCategories[idx % drinkCategories.length] : "";
-  const rightCat = drinkCategories.length ? drinkCategories[(idx + 1) % drinkCategories.length] : "";
-
-  return (
-    <div className="min-h-screen text-white bg-black">
-      <Header fontScale={fontScale} setFontScale={setFontScale} />
-
-      {/* Drei Spalten */}
-      <div className="grid grid-cols-3 h-[85vh]" style={{ fontSize: `${fontScale}rem` }}>
-        <FullBgColumn title={leftCat || "—"} bg={getImage(leftCat)} fading={fading}>
-          <MenuList items={drinkGroups[leftCat] || []} showPrice={false} />
-        </FullBgColumn>
-
-        <FullBgColumn title={rightCat || "—"} bg={getImage(rightCat)} fading={fading}>
-          <MenuList items={drinkGroups[rightCat] || []} showPrice={false} />
-        </FullBgColumn>
-
-        <FullBgColumn title="Shisha · Tabak" bg={getImage("shisha")} fading={false}>
-          <div className="space-y-6">
-            {Object.entries(shishaGroups).map(([brand, items]) => (
-              <div key={brand} className="mb-6">
-                {/* Kein Preis-Hinweis mehr */}
-                <ul className="divide-y" style={{ borderColor: BORDER_GOLD }}>
-                  {items.map((t, i) => (
-                    t.flavor === "Eine Mischung deiner Wahl"
-                      ? (
-                        <li key={`${brand}-${i}`} className="py-2">
-                          <span className="text-lg md:text-xl font-bold" style={{ color: GOLD }}>{t.flavor}</span>
-                        </li>
-                      )
-                      : (
-                        <MenuRow
-                          key={`${brand}-${i}`}
-                          label={t.flavor}
-                          price={undefined}
-                          note={t.note}
-                        />
-                      )
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </FullBgColumn>
-      </div>
-
-      <Footer />
-    </div>
-  );
-}
-
-/* ------------------ UI-Komponenten ------------------ */
-
-function Header({ fontScale, setFontScale }) {
-  return (
-    <div className="border-b px-6 py-4" style={{ borderColor: BORDER_GOLD }}>
-      <div className="max-w-7xl mx-auto flex items-center gap-6">
-        <h1 className="text-4xl font-serif" style={{ color: GOLD, fontWeight: 800 }}>
-          VIBES WIL
-        </h1>
-        <div className="text-white/70 text-base">· Getränke- & Shishakarte</div>
-        {/*<div className="ml-auto flex items-center gap-4 text-sm">
-          <span className="text-white/70 hidden md:inline">Textgröße</span>
-          <input
-            type="range"
-            min={0.9}
-            max={1.6}
-            step={0.05}
-            const handleFullscreen = () => {
-              if (document.documentElement.requestFullscreen) {
-                document.documentElement.requestFullscreen();
-              } else if (document.documentElement.webkitRequestFullscreen) {
-                document.documentElement.webkitRequestFullscreen();
-              } else if (document.documentElement.msRequestFullscreen) {
-                document.documentElement.msRequestFullscreen();
-              }
-            };
-
-            return (
-              <div className="min-h-screen text-white bg-black">
-                <Header fontScale={fontScale} setFontScale={setFontScale} />
-
-                <div className="w-full flex justify-end px-8 pt-4">
-                  <button
-                    onClick={handleFullscreen}
-                    className="bg-black/70 border border-yellow-700 text-yellow-400 px-4 py-2 rounded hover:bg-yellow-900 hover:text-white transition"
-                    style={{ fontWeight: 600 }}
-                  >
-                    Vollbild
-                  </button>
-                </div>
-
-                {/* Drei Spalten */}
-                <div className="grid grid-cols-3 h-[85vh]" style={{ fontSize: `${fontScale}rem` }}>
-                  <FullBgColumn title={leftCat || "—"} bg={getImage(leftCat)} fading={fading}>
-                    <MenuList items={drinkGroups[leftCat] || []} showPrice={false} />
-                  </FullBgColumn>
-
-                  <FullBgColumn title={rightCat || "—"} bg={getImage(rightCat)} fading={fading}>
-                    <MenuList items={drinkGroups[rightCat] || []} showPrice={false} />
-                  </FullBgColumn>
-
-                  <FullBgColumn title="Shisha · Tabak" bg={getImage("shisha")} fading={false}>
-                    <div className="space-y-6">
-                      {Object.entries(shishaGroups).map(([brand, items]) => (
-                        <div key={brand} className="mb-6">
-                          {/* Kein Preis-Hinweis mehr */}
-                          <ul className="divide-y" style={{ borderColor: BORDER_GOLD }}>
-                            {items.map((t, i) => (
-                              t.flavor === "Eine Mischung deiner Wahl"
-                                ? (
-                                  <li key={`${brand}-${i}`} className="py-2">
-                                    <span className="text-lg md:text-xl font-bold" style={{ color: GOLD }}>{t.flavor}</span>
-                                  </li>
-                                )
-                                : (
-                                  <MenuRow
-                                    key={`${brand}-${i}`}
-                                    label={t.flavor}
-                                    price={undefined}
-                                    note={t.note}
-                                  />
-                                )
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
-                    </div>
-                  </FullBgColumn>
-                </div>
-
-                <Footer />
-              </div>
-      const pos = direction === 1 ? progress * maxScroll : maxScroll - progress * maxScroll;
-      el.scrollTop = pos;
-
-      if (progress < 1) {
-        raf = requestAnimationFrame(tick);
-      } else {
-        direction *= -1;
-        start = performance.now();
-        setTimeout(() => {
-          raf = requestAnimationFrame(tick);
-        }, HOLD_TIME);
-      }
-    };
-
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [title]);
-
-  return (
-    <div className="relative overflow-hidden h-full">
-      {/* --- Hintergrundbild --- */}
-      <div className="absolute inset-0">
-        <img
-          src={src}
-          alt={normalize(title)}
-          onError={() => setSrc(FALLBACK_IMG)}
-          className={`w-full h-full object-center object-cover transition-opacity duration-700 ${
-            fading ? "opacity-0" : "opacity-100"
-          }`}
-          style={{ filter: "brightness(35%) contrast(110%)" }} // <— dunkler, aber sichtbar!
-        />
-      </div>
-
-      {/* --- Stärkere Abdunkelung + Verlauf --- */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-black/75" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/85 to-black/95" />
-      </div>
-
-      {/* --- Inhalt --- */}
-      <div className="relative z-10 h-full flex flex-col items-start justify-start px-8 py-8">
-        <h2
-          className="text-3xl mb-4 font-serif drop-shadow-[0_3px_8px_rgba(0,0,0,1)]"
-          style={{ color: GOLD, fontWeight: 800 }}
-        >
-          {title}
-        </h2>
-
-        {/* Scrollbarer Bereich */}
-        <div
-          ref={scrollRef}
-          className="w-full flex-1 overflow-y-auto pr-4"
-          style={{
-            scrollbarWidth: "none",
-            msOverflowStyle: "none",
-          }}
-        >
-          <style>{`div::-webkit-scrollbar { display: none; }`}</style>
-          {children}
-        </div>
-      </div>
-
-      {/* --- Spaltentrenner --- */}
-      <div
-        className="absolute top-0 right-0 h-full"
-        style={{ width: 1, background: BORDER_GOLD }}
-      />
-    </div>
-  );
-}
+      });
+// ...existing code...
 
 function MenuList({ items, showPrice }) {
   if (!items || items.length === 0)
     return <div className="text-white/60">Keine Einträge</div>;
+
 
   return (
     <ul className="divide-y" style={{ borderColor: BORDER_GOLD }}>
@@ -472,7 +261,6 @@ function MenuRow({ label, price, note }) {
     <li className="py-2">
       <div className="flex items-baseline">
         <span className="text-lg md:text-xl font-medium truncate">{label}</span>
-
         {/* Linie nur, wenn es eine Beschreibung (note) gibt */}
         {note ? (
           <span
@@ -493,13 +281,5 @@ function MenuRow({ label, price, note }) {
       {/* Beschreibung (note) */}
       {note && <div className="text-sm text-white/70 mt-1">{note}</div>}
     </li>
-  );
-}
-
-function Footer() {
-  return (
-    <div className="text-center py-6 text-white/50 text-sm">
-      © {new Date().getFullYear()} Vibes Wil · Created by Daniel Sevinc
-    </div>
   );
 }
