@@ -96,7 +96,7 @@ const DATA = {
 };
 
 
-export default function VibesWilTV() {
+function App() {
     // Video/Karten-Modus
     const [showVideo, setShowVideo] = useState(false);
     // Wie lange das Video angezeigt wird (in ms)
@@ -284,6 +284,8 @@ export default function VibesWilTV() {
     </div>
   );
 }
+
+export default App;
 
 function Header({ fontScale, setFontScale }) {
   return (
