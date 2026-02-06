@@ -339,82 +339,8 @@ function FullBgColumn({ title, bg, children, fading }) {
   }, []);
 
   return (
-      <div className="min-h-screen text-white bg-black pr-8 md:pr-16" style={{ paddingRight: '2cm', position: 'relative' }}>
-        {showVideo ? (
-          <div style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100vw',
-            height: '100vh',
-            background: 'rgba(0,0,0,0.95)',
-            zIndex: 5000,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            {/* Instagram Reel als iFrame */}
-            <iframe
-              src="https://www.instagram.com/reel/DHx-njMNgHd/embed"
-              width="420"
-              height="750"
-              allow="autoplay; encrypted-media"
-              allowFullScreen
-              frameBorder="0"
-              style={{ borderRadius: 16, boxShadow: '0 4px 32px #000' }}
-              title="Vibes Wil Instagram Reel"
-            />
-          </div>
-        ) : (
-          <>
-            <Header fontScale={fontScale} setFontScale={setFontScale} />
-            {/* Drei Spalten */}
-            <div className="grid grid-cols-3 h-[85vh]" style={{ fontSize: `${fontScale}rem`, paddingLeft: '2cm' }}>
-              <FullBgColumn title={leftCat || "—"} bg={getImage(leftCat)} fading={fading}>
-                <MenuList items={drinkGroups[leftCat] || []} showPrice={false} />
-              </FullBgColumn>
-
-              <FullBgColumn title={rightCat || "—"} bg={getImage(rightCat)} fading={fading}>
-                <MenuList items={drinkGroups[rightCat] || []} showPrice={false} />
-              </FullBgColumn>
-
-              <FullBgColumn title="Shisha · Tabak" bg={getImage("shisha")}
-                fading={false}>
-                <div className="space-y-6">
-                  {Object.entries(shishaGroups).map(([brand, items]) => (
-                    <div key={brand} className="mb-6">
-                      {/* Kein Preis-Hinweis mehr */}
-                      <ul className="divide-y" style={{ borderColor: BORDER_GOLD }}>
-                          {items.map((t, i) => {
-                            // Entferne Unterstreichung für "Eine Mischung deiner Wahl"
-                            if (t.flavor === "Eine Mischung deiner Wahl") {
-                              return (
-                                <li key={`${brand}-${i}`} className="py-2">
-                                  <div className="flex items-baseline">
-                                    <span className="text-lg md:text-xl font-bold" style={{ color: GOLD }}>{t.flavor}</span>
-                                    <span className="flex-1 mx-3" />
-                                  </div>
-                                </li>
-                              );
-                            }
-                            return (
-                              <MenuRow
-                                key={`${brand}-${i}`}
-                                label={t.flavor}
-                                price={undefined}
-                                note={t.note}
-                              />
-                            );
-                          })}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              </FullBgColumn>
-            </div>
-            <Footer />
-        </>
-      )}
+    <div className="min-h-screen text-white bg-black pr-8 md:pr-16" style={{ paddingRight: '2cm', position: 'relative' }}>
+      {children}
     </div>
   );
 }
