@@ -220,6 +220,12 @@ const DATA = {
 
 
 export default function VibesWilTV() {
+    // Video/Karten-Modus
+    const [showVideo, setShowVideo] = useState(false);
+    // Wie lange das Video angezeigt wird (in ms)
+    const VIDEO_DURATION = 35000; // 35 Sekunden (Instagram Reel-Länge anpassen!)
+    // Zähler für vollständige Rotationen
+    const [rotationCount, setRotationCount] = useState(0);
   // Vollbildmodus
   const [isFullscreen, setIsFullscreen] = useState(false);
   function toggleFullscreen() {
@@ -255,20 +261,48 @@ export default function VibesWilTV() {
   useEffect(() => {
     if (drinkCategories.length === 0) return;
     let fade, next;
+    let localIdx = idx;
+    let localRotation = rotationCount;
     const loop = () => {
       fade = setTimeout(() => setFading(true), ROTATE_MS - FADE_MS);
       next = setTimeout(() => {
-        setIdx((i) => (i + 2) % drinkCategories.length);
+        // Nächste Kategorie
+        setIdx((i) => {
+          const nextIdx = (i + 2) % drinkCategories.length;
+          // Wenn wir wieder am Anfang sind, Rotation hochzählen
+          if (nextIdx === 0) {
+            setRotationCount((r) => r + 1);
+          }
+          return nextIdx;
+        });
         setFading(false);
         loop();
       }, ROTATE_MS);
     };
-    loop();
+    if (!showVideo) loop();
     return () => {
       clearTimeout(fade);
       clearTimeout(next);
     };
-  }, [drinkCategories.length]);
+  }, [drinkCategories.length, showVideo]);
+
+  // Wenn Rotation gezählt wurde, Video anzeigen
+  useEffect(() => {
+    if (rotationCount > 0 && !showVideo) {
+      setShowVideo(true);
+    }
+  }, [rotationCount, showVideo]);
+
+  // Nach Video wieder Karte anzeigen
+  useEffect(() => {
+    if (showVideo) {
+      const t = setTimeout(() => {
+        setShowVideo(false);
+        setRotationCount(0); // Zähler zurücksetzen, damit nach nächster Rotation wieder Video kommt
+      }, VIDEO_DURATION);
+      return () => clearTimeout(t);
+    }
+  }, [showVideo]);
 
   const leftCat = drinkCategories.length ? drinkCategories[idx % drinkCategories.length] : "";
   const rightCat = drinkCategories.length ? drinkCategories[(idx + 1) % drinkCategories.length] : "";
@@ -408,80 +442,107 @@ function FullBgColumn({ title, bg, children, fading }) {
     const HOLD_TIME = 1000;
 
     let direction = 1;
-    let start = performance.now();
+    return (
+      <div className="min-h-screen text-white bg-black pr-8 md:pr-16" style={{ paddingRight: '2cm', position: 'relative' }}>
+        {/* Vollbild-Button oben rechts, nur wenn nicht im Vollbild */}
+        {!isFullscreen && (
+          <button
+            style={{
+              position: "fixed",
+              top: 20,
+              right: 20,
+              zIndex: 2000,
+              padding: "10px 18px",
+              background: GOLD,
+              color: "#222",
+              border: "none",
+              borderRadius: "8px",
+              fontWeight: 700,
+              cursor: "pointer",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.15)"
+            }}
+            onClick={toggleFullscreen}
+          >
+            Vollbild
+          </button>
+        )}
+        {showVideo ? (
+          <div style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            background: 'rgba(0,0,0,0.95)',
+            zIndex: 5000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            {/* Instagram Reel als iFrame */}
+            <iframe
+              src="https://www.instagram.com/reel/DHx-njMNgHd/embed"
+              width="420"
+              height="750"
+              allow="autoplay; encrypted-media"
+              allowFullScreen
+              frameBorder="0"
+              style={{ borderRadius: 16, boxShadow: '0 4px 32px #000' }}
+              title="Vibes Wil Instagram Reel"
+            />
+          </div>
+        ) : (
+          <>
+            <Header fontScale={fontScale} setFontScale={setFontScale} />
+            {/* Drei Spalten */}
+            <div className="grid grid-cols-3 h-[85vh]" style={{ fontSize: `${fontScale}rem`, paddingLeft: '2cm' }}>
+              <FullBgColumn title={leftCat || "—"} bg={getImage(leftCat)} fading={fading}>
+                <MenuList items={drinkGroups[leftCat] || []} showPrice={false} />
+              </FullBgColumn>
 
-    const tick = (t) => {
-      const elapsed = t - start;
-      const progress = Math.min(elapsed / SCROLL_DURATION, 1);
-      const pos = direction === 1 ? progress * maxScroll : maxScroll - progress * maxScroll;
-      el.scrollTop = pos;
+              <FullBgColumn title={rightCat || "—"} bg={getImage(rightCat)} fading={fading}>
+                <MenuList items={drinkGroups[rightCat] || []} showPrice={false} />
+              </FullBgColumn>
 
-      if (progress < 1) {
-        raf = requestAnimationFrame(tick);
-      } else {
-        direction *= -1;
-        start = performance.now();
-        setTimeout(() => {
-          raf = requestAnimationFrame(tick);
-        }, HOLD_TIME);
-      }
-    };
-
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [title]);
-
-  return (
-    <div className="relative overflow-hidden h-full">
-      {/* --- Hintergrundbild --- */}
-      <div className="absolute inset-0">
-        <img
-          src={src}
-          alt={normalize(title)}
-          onError={() => setSrc(FALLBACK_IMG)}
-          className={`w-full h-full object-center object-cover transition-opacity duration-700 ${
-            fading ? "opacity-0" : "opacity-100"
-          }`}
-          style={{ filter: "brightness(35%) contrast(110%)" }} // <— dunkler, aber sichtbar!
-        />
+              <FullBgColumn title="Shisha · Tabak" bg={getImage("shisha")}
+                fading={false}>
+                <div className="space-y-6">
+                  {Object.entries(shishaGroups).map(([brand, items]) => (
+                    <div key={brand} className="mb-6">
+                      {/* Kein Preis-Hinweis mehr */}
+                      <ul className="divide-y" style={{ borderColor: BORDER_GOLD }}>
+                          {items.map((t, i) => {
+                            // Entferne Unterstreichung für "Eine Mischung deiner Wahl"
+                            if (t.flavor === "Eine Mischung deiner Wahl") {
+                              return (
+                                <li key={`${brand}-${i}`} className="py-2">
+                                  <div className="flex items-baseline">
+                                    <span className="text-lg md:text-xl font-bold" style={{ color: GOLD }}>{t.flavor}</span>
+                                    <span className="flex-1 mx-3" />
+                                  </div>
+                                </li>
+                              );
+                            }
+                            return (
+                              <MenuRow
+                                key={`${brand}-${i}`}
+                                label={t.flavor}
+                                price={undefined}
+                                note={t.note}
+                              />
+                            );
+                          })}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </FullBgColumn>
+            </div>
+            <Footer />
+          </>
+        )}
       </div>
-
-      {/* --- Stärkere Abdunkelung + Verlauf --- */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-black/75" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/85 to-black/95" />
-      </div>
-
-      {/* --- Inhalt --- */}
-      <div className="relative z-10 h-full flex flex-col items-start justify-start px-8 py-8">
-        <h2
-          className="text-3xl mb-4 font-serif drop-shadow-[0_3px_8px_rgba(0,0,0,1)]"
-          style={{ color: GOLD, fontWeight: 800 }}
-        >
-          {title}
-        </h2>
-
-        {/* Scrollbarer Bereich */}
-        <div
-          ref={scrollRef}
-          className="w-full flex-1 overflow-y-auto pr-4"
-          style={{
-            scrollbarWidth: "none",
-            msOverflowStyle: "none",
-          }}
-        >
-          <style>{`div::-webkit-scrollbar { display: none; }`}</style>
-          {children}
-        </div>
-      </div>
-
-      {/* --- Spaltentrenner --- */}
-      <div
-        className="absolute top-0 right-0 h-full"
-        style={{ width: 1, background: BORDER_GOLD }}
-      />
-    </div>
-  );
+    );
 }
 
 function MenuList({ items, showPrice }) {
