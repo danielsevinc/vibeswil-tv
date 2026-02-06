@@ -354,7 +354,7 @@ function Header({ fontScale, setFontScale }) {
   return (
     <div className="border-b px-0 py-4" style={{ borderColor: BORDER_GOLD }}>
       <div className="max-w-7xl flex items-center gap-6 pr-8 md:pr-16">
-        <h1 className="text-4xl font-serif" style={{ color: GOLD, fontWeight: 800 }}>
+        <h1 className="text-4xl font-serif mr-12 md:mr-32" style={{ color: GOLD, fontWeight: 800 }}>
           VIBES WIL
         </h1>
         <div className="text-white/70 text-base">· Getränke- & Shishakarte</div>
