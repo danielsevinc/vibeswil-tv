@@ -441,7 +441,9 @@ function FullBgColumn({ title, bg, children, fading }) {
     const HOLD_TIME = 1000;
 
     let direction = 1;
-    return (
+  }, []);
+
+  return (
       <div className="min-h-screen text-white bg-black pr-8 md:pr-16" style={{ paddingRight: '2cm', position: 'relative' }}>
         {/* Vollbild-Button oben rechts, nur wenn nicht im Vollbild */}
         {!isFullscreen && (
