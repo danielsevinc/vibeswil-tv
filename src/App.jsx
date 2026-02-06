@@ -274,7 +274,7 @@ export default function VibesWilTV() {
   const rightCat = drinkCategories.length ? drinkCategories[(idx + 1) % drinkCategories.length] : "";
 
   return (
-    <div className="min-h-screen text-white bg-black pr-8 md:pr-16">
+    <div className="min-h-screen text-white bg-black pr-8 md:pr-16" style={{ paddingRight: '2cm' }}>
         {/* Vollbild-Button oben rechts, nur wenn nicht im Vollbild */}
         {!isFullscreen && (
           <button
@@ -354,7 +354,10 @@ function Header({ fontScale, setFontScale }) {
   return (
     <div className="border-b px-0 py-4" style={{ borderColor: BORDER_GOLD }}>
       <div className="max-w-7xl flex items-center gap-6 pr-8 md:pr-16">
-        <h1 className="text-4xl font-serif mr-12 md:mr-32" style={{ color: GOLD, fontWeight: 800 }}>
+        <h1
+          className="text-4xl font-serif mr-12 md:mr-32"
+          style={{ color: GOLD, fontWeight: 800, paddingLeft: '2cm' }}
+        >
           VIBES WIL
         </h1>
         <div className="text-white/70 text-base">· Getränke- & Shishakarte</div>
