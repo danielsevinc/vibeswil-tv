@@ -370,16 +370,15 @@ export default function VibesWilTV() {
                         />
                       );
                     })}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </FullBgColumn>
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </FullBgColumn>
+        </div>
+        <Footer />
       </div>
-
-      <Footer />
-    </div>
-  );
+    );
 
 /* ------------------ UI-Komponenten ------------------ */
 
