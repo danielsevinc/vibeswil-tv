@@ -380,7 +380,6 @@ export default function VibesWilTV() {
       <Footer />
     </div>
   );
-}
 
 /* ------------------ UI-Komponenten ------------------ */
 
