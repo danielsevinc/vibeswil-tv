@@ -340,28 +340,6 @@ function FullBgColumn({ title, bg, children, fading }) {
 
   return (
       <div className="min-h-screen text-white bg-black pr-8 md:pr-16" style={{ paddingRight: '2cm', position: 'relative' }}>
-        {/* Vollbild-Button oben rechts, nur wenn nicht im Vollbild */}
-        {!isFullscreen && (
-          <button
-            style={{
-              position: "fixed",
-              top: 20,
-              right: 20,
-              zIndex: 2000,
-              padding: "10px 18px",
-              background: GOLD,
-              color: "#222",
-              border: "none",
-              borderRadius: "8px",
-              fontWeight: 700,
-              cursor: "pointer",
-              boxShadow: "0 2px 8px rgba(0,0,0,0.15)"
-            }}
-            onClick={toggleFullscreen}
-          >
-            Vollbild
-          </button>
-        )}
         {showVideo ? (
           <div style={{
             position: 'fixed',
