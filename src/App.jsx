@@ -422,7 +422,7 @@ function Header({ fontScale, setFontScale }) {
 }
 
 /* --- Hauptspalte mit dunklem Overlay und Top-Alignment --- */
-function FullBgColumn({ title, bg, children, fading }) {
+function FullBgColumn({ title, bg, children, fading }) {}
   const [src, setSrc] = useState(bg || FALLBACK_IMG);
   const scrollRef = React.useRef(null);
 
@@ -539,9 +539,8 @@ function FullBgColumn({ title, bg, children, fading }) {
             </div>
             <Footer />
           </>
-        )}
-          </div>
-        );
+        )
+  )
 
 function MenuList({ items, showPrice }) {
   if (!items || items.length === 0)
