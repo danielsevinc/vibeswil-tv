@@ -300,7 +300,7 @@ export default function VibesWilTV() {
       <Header fontScale={fontScale} setFontScale={setFontScale} />
 
       {/* Drei Spalten */}
-      <div className="grid grid-cols-3 h-[85vh]" style={{ fontSize: `${fontScale}rem` }}>
+      <div className="grid grid-cols-3 h-[85vh]" style={{ fontSize: `${fontScale}rem`, paddingLeft: '2cm' }}>
         <FullBgColumn title={leftCat || "—"} bg={getImage(leftCat)} fading={fading}>
           <MenuList items={drinkGroups[leftCat] || []} showPrice={false} />
         </FullBgColumn>
