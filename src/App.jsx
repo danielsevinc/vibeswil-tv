@@ -242,7 +242,7 @@ export default function VibesWilTV() {
   }, []);
   const ROTATE_MS = 10000;
   const FADE_MS = 400;
-  const [fontScale, setFontScale] = useState(0.9);
+  const [fontScale, setFontScale] = useState(1.1);
 
   const drinkGroups = useMemo(() => groupBy(DATA.drinks, "category"), []);
   const drinkCategories = Object.keys(drinkGroups);
@@ -274,7 +274,7 @@ export default function VibesWilTV() {
   const rightCat = drinkCategories.length ? drinkCategories[(idx + 1) % drinkCategories.length] : "";
 
   return (
-    <div className="min-h-screen text-white bg-black">
+    <div className="min-h-screen text-white bg-black pl-4 md:pl-8">
         {/* Vollbild-Button oben rechts, nur wenn nicht im Vollbild */}
         {!isFullscreen && (
           <button
