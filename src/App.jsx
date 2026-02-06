@@ -540,9 +540,9 @@ function FullBgColumn({ title, bg, children, fading }) {
               </FullBgColumn>
             </div>
             <Footer />
-	  </>
-        )
-}
+                  </>
+                )
+              }
 
 function MenuList({ items, showPrice }) {
   if (!items || items.length === 0)
