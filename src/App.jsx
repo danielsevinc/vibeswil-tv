@@ -541,8 +541,6 @@ function FullBgColumn({ title, bg, children, fading }) {
             <Footer />
           </>
         )}
-      </div>
-    );
 }
 
 function MenuList({ items, showPrice }) {
