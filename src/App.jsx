@@ -352,15 +352,15 @@ export default function VibesWilTV() {
 
 function Header({ fontScale, setFontScale }) {
   return (
-    <div className="border-b px-0 py-4" style={{ borderColor: BORDER_GOLD }}>
+    <div className="border-b px-0 py-6" style={{ borderColor: BORDER_GOLD }}>
       <div className="max-w-7xl flex items-center gap-6 pr-8 md:pr-16">
         <h1
-          className="text-4xl font-serif mr-12 md:mr-32"
-          style={{ color: GOLD, fontWeight: 800, paddingLeft: '2cm' }}
+          className="text-6xl font-serif mr-12 md:mr-32"
+          style={{ color: GOLD, fontWeight: 800, paddingLeft: '2cm', lineHeight: 1.1 }}
         >
           VIBES WIL
         </h1>
-        <div className="text-white/70 text-base">· Getränke- & Shishakarte</div>
+        <div className="text-white/70 text-2xl ml-2">· Getränke- & Shishakarte</div>
         {/*<div className="ml-auto flex items-center gap-4 text-sm">
           <span className="text-white/70 hidden md:inline">Textgröße</span>
           <input
