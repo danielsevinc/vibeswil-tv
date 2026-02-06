@@ -45,132 +45,11 @@ const groupBy = (arr, key) =>
     return acc;
   }, {});
 const currency = (n) => (typeof n === "number" ? `${n.toFixed(2)} CHF` : "");
+  
 
-//  const currency = (n) => (typeof n === "number" ? `${n.toFixed(n % 1 ? 2 : 0)} CHF` : "");
-
-// Demo-Daten
-// Vollständige Menü-Daten von VIBES WIL
 const DATA = {
   drinks: [
-    // --- Wein ---
-    { category: "Rotwein", name: "Pinot Noir", price: 7.5, note: "1 dl · Flasche 70 cl" },
-    { category: "Rotwein", name: "Primitivo", price: 8.0, note: "1 dl · Flasche 70 cl" },
-    { category: "Weisswein", name: "Pinot Grigio", price: 6.5, note: "1 dl · Flasche 70 cl" },
-    { category: "Weisswein", name: "Chardonnay", price: 7.0, note: "1 dl · Flasche 70 cl" },
-
-    // --- Cocktails mit Alkohol ---
-    { category: "Cocktails", name: "Good Vibes", price: 15.5, note: "Vodka · Himbeerenpüree · Cranberrysaft · Limette · Rohrzucker" },
-    { category: "Cocktails", name: "Caipirinha", price: 15.5, note: "Cachaça · Lime Juice · Limette · Rohrzucker" },
-    { category: "Cocktails", name: "Cuba Libre", price: 15.5, note: "Rum · Coca Cola / Zero · Limette · Rohrzucker" },
-    { category: "Cocktails", name: "Long Island Iced Tea", price: 19.5, note: "Vodka · Gin · Rum · Tequila · Triple Sec · Coca Cola · Lime Juice" },
-    { category: "Cocktails", name: "Mojito", price: 15.5, note: "Rum · Soda · Limette · Minze · Rohrzucker" },
-    { category: "Cocktails", name: "Pina Colada", price: 15.5, note: "Rum · Kokosnuss-Sirup · Ananassaft · Rahm" },
-    { category: "Cocktails", name: "Sex on the Beach", price: 15.5, note: "Vodka · White Peach · Orangensaft · Cranberrysaft" },
-    { category: "Cocktails", name: "Amaretto Sour", price: 15.5, note: "Amaretto · Orangensaft · Lime Juice · Rohrzucker" },
-
-    // --- Cocktails ohne Alkohol ---
-    { category: "Mocktails", name: "Berry Vibes", price: 12.5, note: "Himbeerenpüree · Cranberrysaft · Limette · Rohrzucker" },
-    { category: "Mocktails", name: "Coconut Vibes", price: 12.5, note: "Ananassaft · Orangensaft · Rahm · Kokosnuss-Sirup · Grenadine" },
-    { category: "Mocktails", name: "Hawaii Surfer", price: 12.5, note: "Ananassaft · Orangensaft · Passionssaft · Cranberrysaft" },
-    { category: "Mocktails", name: "Virgin Mojito", price: 12.5, note: "Ginger Ale · Limette · Minze · Rohrzucker" },
-
-    // --- Shots ---
-    { category: "Shots", name: "Appenzeller", price: 6.5, note: "34%" },
-    { category: "Shots", name: "Berliner Luft", price: 5.5, note: "18%" },
-    { category: "Shots", name: "Hierbas Ibiza", price: 6.0, note: "26%" },
-    { category: "Shots", name: "Jose Cuervo Classico", price: 6.5, note: "38%" },
-    { category: "Shots", name: "Jose Cuervo Especial", price: 7.0, note: "38%" },
-    { category: "Shots", name: "Jägermeister", price: 6.5, note: "35%" },
-    { category: "Shots", name: "Liquor 43", price: 6.0, note: "31%" },
-    { category: "Shots", name: "Saurer Apfel", price: 5.0, note: "16%" },
-    { category: "Shots", name: "Süsser Apfel", price: 5.0, note: "18%" },
-    { category: "Shots", name: "Shaker", price: 35.0, note: "Serviert in Karaffe" },
-
-    // --- Aperitifs ---
-    { category: "Aperitifs", name: "Martini Blanco", price: 9.5, note: "4 cl · 15%" },
-    { category: "Aperitifs", name: "Aperol", price: 9.5, note: "4 cl · 11%" },
-    { category: "Aperitifs", name: "Campari", price: 9.5, note: "4 cl · 23%" },
-    { category: "Aperitifs", name: "Appenzeller", price: 9.5, note: "4 cl · 29%" },
-    { category: "Aperitifs", name: "Jägermeister", price: 9.5, note: "4 cl · 35%" },
-    { category: "Aperitifs", name: "Zusätze", note: "Red Bull +3 CHF · Cola/Tonic/Bitter Lemon +2.50 CHF · Fruchtsäfte +2 CHF" },
-
-    // --- Spirituosen ---
-    { category: "Spirituosen · Vodka", name: "Absolut Vodka", price: 12.0, note: "4 cl · Flasche 70 cl · 40%" },
-    { category: "Spirituosen · Vodka", name: "Belvedere", price: 14.0, note: "4 cl · Flasche 70 cl · 40%" },
-    { category: "Spirituosen · Vodka", name: "Grey Goose", price: 14.0, note: "4 cl · Flasche 70 cl · 40%" },
-    { category: "Spirituosen · Vodka", name: "Trojka Red", price: 11.0, note: "4 cl · Flasche 70 cl · 24%" },
-    { category: "Spirituosen · Vodka", name: "Trojka Green", price: 11.0, note: "4 cl · Flasche 70 cl · 17%" },
-    { category: "Spirituosen · Vodka", name: "Trojka Black", price: 11.0, note: "4 cl · Flasche 70 cl · 17%" },
-    { category: "Spirituosen · Vodka", name: "Trojka Weiss", note: "Flasche 70 cl · 40%" },
-
-    { category: "Spirituosen · Gin", name: "Gordons Gin", price: 12.0, note: "4 cl · Flasche 70 cl · 38%" },
-    { category: "Spirituosen · Gin", name: "Bombay Sapphire", price: 13.0, note: "4 cl · Flasche 70 cl · 40%" },
-    { category: "Spirituosen · Gin", name: "Hendrick’s", price: 14.0, note: "4 cl · Flasche 70 cl · 41%" },
-
-    { category: "Spirituosen · Whiskey", name: "Jack Daniels Old No. 7", price: 13.0, note: "4 cl · Flasche 70 cl · 40%" },
-    { category: "Spirituosen · Whiskey", name: "Chivas Regal 12 Years", price: 16.0, note: "4 cl · Flasche 70 cl · 40%" },
-    { category: "Spirituosen · Whiskey", name: "Chivas Regal 18 Years", price: 18.0, note: "4 cl · Flasche 70 cl · 40%" },
-    { category: "Spirituosen · Whiskey", name: "Ballantine’s", note: "Flasche 70 cl · 40%" },
-    { category: "Spirituosen · Whiskey", name: "Gentleman Jack", note: "Flasche 70 cl · 40%" },
-
-    { category: "Spirituosen · Rum", name: "Havana Club Añejo 3 Años", price: 12.0, note: "4 cl · Flasche 70 cl · 40%" },
-    { category: "Spirituosen · Rum", name: "Havana Club Reserva", price: 13.0, note: "4 cl · Flasche 70 cl · 40%" },
-    { category: "Spirituosen · Rum", name: "Havana Club 7 Años", price: 14.0, note: "4 cl · Flasche 70 cl · 40%" },
-    { category: "Spirituosen · Rum", name: "Bacardi Superior", price: 13.0, note: "4 cl · Flasche 70 cl · 38%" },
-    { category: "Spirituosen · Rum", name: "Bacardi Black", price: 13.0, note: "4 cl · Flasche 70 cl · 38%" },
-    { category: "Spirituosen · Rum", name: "Zusätze", note: "Red Bull +3 CHF · Cola/Tonic/Bitter Lemon +2.50 CHF · Fruchtsäfte +2 CHF" },
-
-    // --- Liköre ---
-    { category: "Liköre", name: "Baileys Irish Cream", price: 11.0, note: "4 cl · 17%" },
-    { category: "Liköre", name: "Hierbas Ibicencas", price: 11.0, note: "4 cl · 16%" },
-    { category: "Liköre", name: "Amaretto Disaronno", price: 11.0, note: "4 cl · 28%" },
-    { category: "Liköre", name: "Kahlúa", price: 11.0, note: "4 cl · 20%" },
-    { category: "Liköre", name: "Malibu", price: 11.0, note: "4 cl · 21%" },
-    { category: "Liköre", name: "Passoã", price: 11.0, note: "4 cl · 17%" },
-    { category: "Liköre", name: "Zusätze", note: "Red Bull +3 CHF · Cola/Tonic/Bitter Lemon +2.50 CHF · Fruchtsäfte +2 CHF" },
-
-    // --- Spritz & Champagner ---
-    { category: "Spritz & Weincocktails", name: "Gespritzter Weisswein", price: 8.5, note: "Süss / Sauer · 20 cl" },
-    { category: "Spritz & Weincocktails", name: "Hugo", price: 12.5, note: "Prosecco · Holunder · Limette · Minze · Soda · 20 cl" },
-    { category: "Spritz & Weincocktails", name: "Aperol Spritz", price: 12.5, note: "Prosecco · Aperol · Soda · 20 cl" },
-    { category: "Spritz & Weincocktails", name: "Campari Spritz", price: 12.5, note: "20 cl" },
-    { category: "Spritz & Weincocktails", name: "Lillet Blanc", price: 12.5, note: "20 cl" },
-    { category: "Spritz & Weincocktails", name: "Lillet Rosé", price: 12.5, note: "20 cl" },
-    { category: "Spritz & Weincocktails", name: "Apricot Spritz", price: 12.5, note: "20 cl" },
-    { category: "Schaumwein & Champagner", name: "Prosecco Spumante", price: 9.0, note: "10 cl · Flasche 75 cl" },
-    { category: "Schaumwein & Champagner", name: "Champagne Moët", note: "Flasche 75 cl" },
-    { category: "Schaumwein & Champagner", name: "Chandon Brut Imperial", note: "Flasche 75 cl" },
-    { category: "Schaumwein & Champagner", name: "Moët Ice", note: "Flasche 75 cl" },
-    { category: "Schaumwein & Champagner", name: "Chandon Ice", note: "Flasche 75 cl" },
-
-    // --- Bier ---
-    { category: "Bier", name: "Haldengut Lager", price: 5.5, note: "30 cl · 5%" },
-    { category: "Bier", name: "Haldengut Lager Süss/Sauer", price: 5.5, note: "30 cl · 5%" },
-    { category: "Bier", name: "Haldengut Lager Gross", price: 8.0, note: "50 cl · 5%" },
-    { category: "Bier", name: "Corona", price: 8.0, note: "35 cl · 4.6%" },
-    { category: "Bier", name: "Heineken Premium", price: 7.0, note: "33 cl · 5%" },
-    { category: "Bier", name: "Heineken Alkoholfrei", price: 6.5, note: "33 cl · alkoholfrei" },
-    { category: "Bier", name: "Smirnoff Ice", price: 8.0, note: "275 ml · 4%" },
-    { category: "Bier", name: "Bomonti", price: 8.0, note: "500 ml" },
-
-    // --- Kalte Getränke ---
-    { category: "Kalte Getränke", name: "Mineral ohne Kohlensäure", price: 5.5, note: "33 cl" },
-    { category: "Kalte Getränke", name: "Mineral mit Kohlensäure", price: 5.5, note: "33 cl" },
-    { category: "Kalte Getränke", name: "Coca Cola", price: 5.5, note: "33 cl" },
-    { category: "Kalte Getränke", name: "Coca Cola Zero", price: 5.5, note: "33 cl" },
-    { category: "Kalte Getränke", name: "Fanta", price: 6.0, note: "33 cl" },
-    { category: "Kalte Getränke", name: "Sprite", price: 5.0, note: "33 cl" },
-    { category: "Kalte Getränke", name: "Rivella Rot", price: 5.0, note: "33 cl" },
-    { category: "Kalte Getränke", name: "Rivella Blau", price: 5.0, note: "33 cl" },
-    { category: "Kalte Getränke", name: "Ice Tea Lemon", price: 6.0, note: "33 cl" },
-    { category: "Kalte Getränke", name: "Ice Tea Peach", price: 6.0, note: "33 cl" },
-    { category: "Kalte Getränke", name: "Schorle", price: 5.0, note: "33 cl" },
-    { category: "Kalte Getränke", name: "Elephant Bay", price: 7.5, note: "Lemon · Peach · Blueberry · Himbeere · Wassermelone · Granatapfel · u.v.m. · 33 cl" },
-    { category: "Kalte Getränke", name: "Red Bull", price: 7.5, note: "Classic · Sugar Free · White · Blue · Green · Red · Apricot · Yellow · Summer · 25 cl" },
-    { category: "Kalte Getränke", name: "Moloko", price: 7.5, note: "Limette-Minze · Cranberry · Blueberry · 25 cl" },
-    { category: "Kalte Getränke", name: "Schweppes", price: 5.5, note: "Bitter Lemon · Tonic · Ginger Ale · Rose · 20 cl" },
-    { category: "Kalte Getränke", name: "Fruchtsäfte", price: 6.0, note: "Ananas · Orange · Cranberry · Maracuja · 30 cl" },
-
+    // ...existing code...
     // --- Warme Getränke ---
     { category: "Warme Getränke", name: "Kaffee", price: 5.5 },
     { category: "Warme Getränke", name: "Milchkaffee", price: 6.0 },
@@ -179,10 +58,8 @@ const DATA = {
     { category: "Warme Getränke", name: "Cappuccino", price: 6.5 },
     { category: "Warme Getränke", name: "Latte Macchiato", price: 6.5 },
     { category: "Warme Getränke", name: "Warme Schokolade", price: 6.0 },
-    { category: "Warme Getränke", name: "Tee", price: 5.5, note: "Schwarz · Grün · Pfefferminz · Kamille · Fruchtmix" },
+    { category: "Warme Getränke", name: "Tee", price: 5.5, note: "Schwarz · Grün · Pfefferminz · Kamille · Fruchtmix" }
   ],
-
-  // --- SHISHA ---
   shisha: [
     { brand: "Hookah", flavor: "Eine Mischung deiner Wahl", price: 29.0 },
     { brand: "Hookah", flavor: "Hausmischung mit/ohne Minze", price: 29.0 },
@@ -214,8 +91,8 @@ const DATA = {
     { brand: "Hookah", flavor: "Tropical", price: 29.0 },
     { brand: "Hookah", flavor: "Watermelon", price: 29.0 },
     { brand: "Hookah", flavor: "Watermelonchill", price: 29.0 },
-    { brand: "Hookahkopf", flavor: "Neuer Kopf", price: 20.0 },
-  ],
+    { brand: "Hookahkopf", flavor: "Neuer Kopf", price: 20.0 }
+  ]
 };
 
 
@@ -309,78 +186,104 @@ export default function VibesWilTV() {
 
   return (
     <div className="min-h-screen text-white bg-black pr-8 md:pr-16" style={{ paddingRight: '2cm' }}>
-        {/* Vollbild-Button oben rechts, nur wenn nicht im Vollbild */}
-        {!isFullscreen && (
-          <button
-            style={{
-              position: "fixed",
-              top: 20,
-              right: 20,
-              zIndex: 2000,
-              padding: "10px 18px",
-              background: GOLD,
-              color: "#222",
-              border: "none",
-              borderRadius: "8px",
-              fontWeight: 700,
-              cursor: "pointer",
-              boxShadow: "0 2px 8px rgba(0,0,0,0.15)"
-            }}
-            onClick={toggleFullscreen}
-          >
-            Vollbild
-          </button>
-        )}
-      <Header fontScale={fontScale} setFontScale={setFontScale} />
-
-      {/* Drei Spalten */}
-      <div className="grid grid-cols-3 h-[85vh]" style={{ fontSize: `${fontScale}rem`, paddingLeft: '2cm' }}>
-        <FullBgColumn title={leftCat || "—"} bg={getImage(leftCat)} fading={fading}>
-          <MenuList items={drinkGroups[leftCat] || []} showPrice={false} />
-        </FullBgColumn>
-
-        <FullBgColumn title={rightCat || "—"} bg={getImage(rightCat)} fading={fading}>
-          <MenuList items={drinkGroups[rightCat] || []} showPrice={false} />
-        </FullBgColumn>
-
-        <FullBgColumn title="Shisha · Tabak" bg={getImage("shisha")} fading={false}>
-          <div className="space-y-6">
-            {Object.entries(shishaGroups).map(([brand, items]) => (
-              <div key={brand} className="mb-6">
-                {/* Kein Preis-Hinweis mehr */}
-                <ul className="divide-y" style={{ borderColor: BORDER_GOLD }}>
-                    {items.map((t, i) => {
-                      // Entferne Unterstreichung für "Eine Mischung deiner Wahl"
-                      if (t.flavor === "Eine Mischung deiner Wahl") {
-                        return (
-                          <li key={`${brand}-${i}`} className="py-2">
-                            <div className="flex items-baseline">
-                              <span className="text-lg md:text-xl font-bold" style={{ color: GOLD }}>{t.flavor}</span>
-                              <span className="flex-1 mx-3" />
-                            </div>
-                          </li>
-                        );
-                      }
-                      return (
-                        <MenuRow
-                          key={`${brand}-${i}`}
-                          label={t.flavor}
-                          price={undefined}
-                          note={t.note}
-                        />
-                      );
-                    })}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </FullBgColumn>
+      {/* Vollbild-Button oben rechts, nur wenn nicht im Vollbild */}
+      {!isFullscreen && (
+        <button
+          style={{
+            position: "fixed",
+            top: 20,
+            right: 20,
+            zIndex: 2000,
+            padding: "10px 18px",
+            background: GOLD,
+            color: "#222",
+            border: "none",
+            borderRadius: "8px",
+            fontWeight: 700,
+            cursor: "pointer",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.15)"
+          }}
+          onClick={toggleFullscreen}
+        >
+          Vollbild
+        </button>
+      )}
+      {showVideo ? (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          background: 'rgba(0,0,0,0.95)',
+          zIndex: 5000,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          {/* Instagram Reel als iFrame */}
+          <iframe
+            src="https://www.instagram.com/reel/DHx-njMNgHd/embed"
+            width="420"
+            height="750"
+            allow="autoplay; encrypted-media"
+            allowFullScreen
+            frameBorder="0"
+            style={{ borderRadius: 16, boxShadow: '0 4px 32px #000' }}
+            title="Vibes Wil Instagram Reel"
+          />
         </div>
-        <Footer />
-      </div>
-    );
-
-/* ------------------ UI-Komponenten ------------------ */
+      ) : (
+        <>
+          <Header fontScale={fontScale} setFontScale={setFontScale} />
+          {/* Drei Spalten */}
+          <div className="grid grid-cols-3 h-[85vh]" style={{ fontSize: `${fontScale}rem`, paddingLeft: '2cm' }}>
+            <FullBgColumn title={leftCat || "—"} bg={getImage(leftCat)} fading={fading}>
+              <MenuList items={drinkGroups[leftCat] || []} showPrice={false} />
+            </FullBgColumn>
+            <FullBgColumn title={rightCat || "—"} bg={getImage(rightCat)} fading={fading}>
+              <MenuList items={drinkGroups[rightCat] || []} showPrice={false} />
+            </FullBgColumn>
+            <FullBgColumn title="Shisha · Tabak" bg={getImage("shisha")}
+              fading={false}>
+              <div className="space-y-6">
+                {Object.entries(shishaGroups).map(([brand, items]) => (
+                  <div key={brand} className="mb-6">
+                    {/* Kein Preis-Hinweis mehr */}
+                    <ul className="divide-y" style={{ borderColor: BORDER_GOLD }}>
+                        {items.map((t, i) => {
+                          // Entferne Unterstreichung für "Eine Mischung deiner Wahl"
+                          if (t.flavor === "Eine Mischung deiner Wahl") {
+                            return (
+                              <li key={`${brand}-${i}`} className="py-2">
+                                <div className="flex items-baseline">
+                                  <span className="text-lg md:text-xl font-bold" style={{ color: GOLD }}>{t.flavor}</span>
+                                  <span className="flex-1 mx-3" />
+                                </div>
+                              </li>
+                            );
+                          }
+                          return (
+                            <MenuRow
+                              key={`${brand}-${i}`}
+                              label={t.flavor}
+                              price={undefined}
+                              note={t.note}
+                            />
+                          );
+                        })}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </FullBgColumn>
+          </div>
+          <Footer />
+        </>
+      )}
+    </div>
+  );
+}
 
 function Header({ fontScale, setFontScale }) {
   return (
@@ -395,15 +298,6 @@ function Header({ fontScale, setFontScale }) {
         <div className="text-white/70 text-base">· Getränke- & Shishakarte</div>
         {/*<div className="ml-auto flex items-center gap-4 text-sm">
           <span className="text-white/70 hidden md:inline">Textgröße</span>
-          <input
-            type="range"
-            min={0.9}
-            max={1.6}
-            step={0.05}
-            value={fontScale}
-            onChange={(e) => setFontScale(Number(e.target.value))}
-            className="accent-white"
-          />
           <span
             className="font-mono px-2 py-0.5 rounded"
             style={{
@@ -539,9 +433,11 @@ function FullBgColumn({ title, bg, children, fading }) {
               </FullBgColumn>
             </div>
             <Footer />
-                  </>
-                )
-              }
+        </>
+      )}
+    </div>
+  );
+}
 
 function MenuList({ items, showPrice }) {
   if (!items || items.length === 0)
