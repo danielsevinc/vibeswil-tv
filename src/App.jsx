@@ -274,7 +274,7 @@ export default function VibesWilTV() {
   const rightCat = drinkCategories.length ? drinkCategories[(idx + 1) % drinkCategories.length] : "";
 
   return (
-    <div className="min-h-screen text-white bg-black pl-8 md:pl-16">
+    <div className="min-h-screen text-white bg-black pr-8 md:pr-16">
         {/* Vollbild-Button oben rechts, nur wenn nicht im Vollbild */}
         {!isFullscreen && (
           <button
@@ -353,7 +353,7 @@ export default function VibesWilTV() {
 function Header({ fontScale, setFontScale }) {
   return (
     <div className="border-b px-0 py-4" style={{ borderColor: BORDER_GOLD }}>
-      <div className="max-w-7xl flex items-center gap-6 pl-8 md:pl-16">
+      <div className="max-w-7xl flex items-center gap-6 pr-8 md:pr-16">
         <h1 className="text-4xl font-serif" style={{ color: GOLD, fontWeight: 800 }}>
           VIBES WIL
         </h1>
