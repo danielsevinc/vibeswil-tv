@@ -242,7 +242,7 @@ export default function VibesWilTV() {
   }, []);
   const ROTATE_MS = 10000;
   const FADE_MS = 400;
-  const [fontScale, setFontScale] = useState(1.1);
+  const [fontScale, setFontScale] = useState(1.3);
 
   const drinkGroups = useMemo(() => groupBy(DATA.drinks, "category"), []);
   const drinkCategories = Object.keys(drinkGroups);
