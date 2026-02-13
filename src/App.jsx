@@ -315,27 +315,28 @@ export default function VibesWilTV() {
               <div key={brand} className="mb-6">
                 {/* Kein Preis-Hinweis mehr */}
                 <ul className="divide-y" style={{ borderColor: BORDER_GOLD }}>
-                    {items.map((t, i) => {
-                      // Entferne Unterstreichung für "Eine Mischung deiner Wahl"
-                      if (t.flavor === "Eine Mischung deiner Wahl") {
-                        return (
-                          <li key={`${brand}-${i}`} className="py-2">
-                            <div className="flex items-baseline">
-                              <span className="text-lg md:text-xl font-bold" style={{ color: GOLD }}>{t.flavor}</span>
-                              <span className="flex-1 mx-3" />
-                            </div>
-                          </li>
-                        );
-                      }
+                  {items.map((t, i) => {
+                    // Entferne Unterstreichung für "Eine Mischung deiner Wahl"
+                    const flavorNoUnderscore = t.flavor.replaceAll('_', ' ');
+                    if (flavorNoUnderscore === "Eine Mischung deiner Wahl") {
                       return (
-                        <MenuRow
-                          key={`${brand}-${i}`}
-                          label={t.flavor}
-                          price={undefined}
-                          note={t.note}
-                        />
+                        <li key={`${brand}-${i}`} className="py-2">
+                          <div className="flex items-baseline">
+                            <span className="text-lg md:text-xl font-bold" style={{ color: GOLD }}>{flavorNoUnderscore}</span>
+                            <span className="flex-1 mx-3" />
+                          </div>
+                        </li>
                       );
-                    })}
+                    }
+                    return (
+                      <MenuRow
+                        key={`${brand}-${i}`}
+                        label={flavorNoUnderscore}
+                        price={undefined}
+                        note={t.note}
+                      />
+                    );
+                  })}
                 </ul>
               </div>
             ))}
