@@ -361,7 +361,7 @@ function Header({ fontScale, setFontScale }) {
         >
           VIBES WIL
         </h1>
-        <div className="text-white/70 text-2xl ml-2">· Getränke- & Shishakarte</div>
+        <div className="text-white/70 text-2xl ml-2" style="font-size:14pt">· Getränke- & Shishakarte</div>
         {/*<div className="ml-auto flex items-center gap-4 text-sm">
           <span className="text-white/70 hidden md:inline">Textgröße</span>
           <input
